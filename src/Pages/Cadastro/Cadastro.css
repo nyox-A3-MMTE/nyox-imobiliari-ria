@@ -1,0 +1,64 @@
+body{
+    background-image: url('../../assets/Background.jpg');
+    background-size: cover;
+}
+
+.cadastro-container {
+    max-width: 400px;
+    margin: 60px auto;
+    padding: 32px 24px;
+    background: rgba(255,255,255,0.95);
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    text-align: center;
+}
+
+
+
+.cadastro-container h2 {
+    margin-bottom: 24px;
+    color: #13304d;
+}
+
+.cadastro-container form div {
+    margin-bottom: 18px;
+    text-align: left;
+}
+
+.cadastro-container label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #13304d;
+}
+
+.cadastro-container input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #b0c4de;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.cadastro-container input:focus {
+    border-color: #13304d;
+}
+
+.cadastro-container button {
+    width: 100%;
+    padding: 10px 0;
+    background: #13304d;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.cadastro-container button:hover {
+    background: #1a4066;
+}

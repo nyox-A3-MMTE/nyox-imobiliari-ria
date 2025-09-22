@@ -1,5 +1,5 @@
 import './Home.css';
-import logo from '../assets/logo.png';
+import logo from '../../assets/logo.png';
 function Home() {
   return (
     <div className='home-container'>
@@ -8,7 +8,7 @@ function Home() {
         <li>
             <a href="/">Imóveis</a>
             <a href="/">Sobre nós</a>
-            <a className ="cadastro"href="/">Cadastre-se</a>
+            <a className ="cadastro"href="/cadastro">Cadastre-se</a>
            
         </li>
       </header>
