@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import './Cadastro.css';
+import { useNavigate } from 'react-router-dom';
+import './Login.css';
 
-function Cadastro() {
+
+function Login() {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
-    nome: '',
     email: '',
     senha: ''
   });
@@ -17,7 +19,7 @@ function Cadastro() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:8800/users', {
+      const response = await fetch('http://localhost:8800/users/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -29,36 +31,31 @@ function Cadastro() {
       console.log('Resposta do backend:', data);
       
       if (response.ok) {
-       setMensagem({mensagem: 'Cadastro realizado com sucesso!', tipo: 'sucesso'});
-        setForm({ nome: '', email: '', senha: '' });
+       setMensagem({mensagem: data.message, tipo: 'sucesso'});
+       setForm({ email: '', senha: '' });
+       setTimeout(() => {
+        navigate('/');
+        }, 2000);
+        
+
       } else {
-        setMensagem({mensagem: 'Erro ao cadastrar!', tipo: 'erro'});
+        setMensagem({mensagem: 'Erro ao logar!', tipo: 'erro'});
       }
       }catch (error) {
-        setMensagem({mensagem: 'Erro ao cadastrar!', tipo: 'erro'});
+        setMensagem({mensagem: 'Erro ao logar!', tipo: 'erro'});
       
       }
        setTimeout(() => setMensagem({ mensagem: '', tipo: '' }), 3000);
     };
 
   return (
-    <div className="cadastro-container">  
+    <div className="login-container">  
       <div className={`mensagem ${mensagem.tipo} ${mensagem.mensagem ? 'show' : ''}`}>
         {mensagem.mensagem}
       </div>
 
-      <h2>Cadastro</h2>
+      <h2>Login</h2>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Nome:</label>
-          <input
-            type="text"
-            name="nome"
-            value={form.nome}
-            onChange={handleChange}
-            required
-          />
-        </div>
         <div>
           <label>Email:</label>
           <input
@@ -79,11 +76,10 @@ function Cadastro() {
             required
           />
         </div>
-        <button type="submit">Cadastrar</button>
-        <a href="/login">Já tem cadastro?</a>
+        <button type="submit">Enviar</button>
       </form>
     </div>
   );
 }
 
-export default Cadastro;
+export default Login;

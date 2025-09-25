@@ -17,7 +17,7 @@ function Home() {
             Seu imóvel, sua história, nossa missão <span className='ponto'>.</span>
         </h1>
         <p>Na Nyox Imóveis, ajudamos você a encontrar o imóvel ideal com transparência e facilidade. Com anos de experiência e um time de especialistas, garantimos uma negociação segura e personalizada. Explore nossas opções e comece hoje mesmo uma nova etapa da sua vida!</p>
-        <a id='imoveis' href="/">Ver Imóveis</a>
+        <a id='imoveis' href="/cadastro">Ver Imóveis</a>
       </div>
     </div>
   )
