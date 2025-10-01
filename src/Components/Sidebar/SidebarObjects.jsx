@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faEdit, faTrash, faHome } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faEdit, faTrash, faHome,faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+
 
 export const optionsObjects = [
   {
@@ -21,5 +22,10 @@ export const optionsObjects = [
     title: "Excluídos",
     icon: <FontAwesomeIcon icon={faTrash} />,
     link: "AdmPannel/delete"
+  },
+  {
+    title: "Sair",
+    icon: <FontAwesomeIcon icon={faArrowLeft} />,
+    link: "/",
   }
 ]

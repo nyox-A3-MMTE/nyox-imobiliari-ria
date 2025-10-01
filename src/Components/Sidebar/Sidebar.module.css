@@ -5,11 +5,11 @@ body {
 
 .sidebar {
     height: 100vh;
-    width: 10%; 
-    background-color: grey;
+    width: 15%; 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    position: fixed;
 }
 .simbolImage {
     max-width: 80%;
@@ -18,10 +18,9 @@ body {
 }
 
 .simbolContainer {
-    height: 10%;
+    height: 15%;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    
 }
 
 .optionsContainer {
@@ -48,13 +47,13 @@ body {
     display: flex;
     gap: 10px;
     width: 100%;
-    padding: 20px;
+    padding: 10px;
     box-sizing: border-box;
 }
 .liOptions:hover {
 
     transition: 0.2s ease-in-out background-color;
-    background-color: #ccc;
+    background-color: rgba(19, 48, 77, 0.5);
 }
 
 

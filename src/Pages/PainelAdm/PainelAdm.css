@@ -1,0 +1,37 @@
+.painelAdm{
+    display: flex;
+    flex-wrap: wrap;
+}
+.main{
+    display: flex;
+    margin-left:17%;
+    min-width: 80%;
+    max-height: 100%;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    overflow-y: auto;
+    position: fixed;
+  
+;
+   
+}
+
+.main h1{
+ 
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.imovel{
+    border: 1px solid #000000;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: rgba(19, 48, 77, 0.5);
+    
+}
+
+.imovel p{
+    color: white;
+    padding: 0.3rem;
+}

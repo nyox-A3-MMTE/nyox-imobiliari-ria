@@ -10,8 +10,7 @@ function Login() {
     senha: ''
   });
 
-  const [mensagem, setMensagem] = useState({mensagem: '', tipo: ''});
-
+  
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -26,34 +25,27 @@ function Login() {
         },
         body: JSON.stringify(form)
       });
-
-      const data = await response.json();
-      console.log('Resposta do backend:', data);
-      
+            
       if (response.ok) {
-       setMensagem({mensagem: data.message, tipo: 'sucesso'});
+       const data = await response.json();
+       localStorage.setItem("token", data.token);
+       console.log("Login efetuado com sucesso!"+ data);
+       navigate('/AdmPannel');
        setForm({ email: '', senha: '' });
-       setTimeout(() => {
-        navigate('/');
-        }, 2000);
-        
+       
 
       } else {
-        setMensagem({mensagem: 'Erro ao logar!', tipo: 'erro'});
+        console.log("Erro ao logar"+ data);
       }
       }catch (error) {
-        setMensagem({mensagem: 'Erro ao logar!', tipo: 'erro'});
+        console.error('Erro ao conectar ao servidor:', error);
       
       }
-       setTimeout(() => setMensagem({ mensagem: '', tipo: '' }), 3000);
+       
     };
 
   return (
     <div className="login-container">  
-      <div className={`mensagem ${mensagem.tipo} ${mensagem.mensagem ? 'show' : ''}`}>
-        {mensagem.mensagem}
-      </div>
-
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <div>
