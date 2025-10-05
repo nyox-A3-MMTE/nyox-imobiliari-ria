@@ -14,11 +14,6 @@ export const optionsObjects = [
     link: "AdmPannel/create"
   },
   {
-    title: "Editar",
-    icon: <FontAwesomeIcon icon={faEdit} />,
-    link: "AdmPannel/edit"
-  },
-  {
     title: "Excluídos",
     icon: <FontAwesomeIcon icon={faTrash} />,
     link: "AdmPannel/delete"
