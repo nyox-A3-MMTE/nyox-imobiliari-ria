@@ -1,0 +1,36 @@
+.botoes{
+    display: flex;
+    gap: 1rem;
+}
+.containerBotoes{
+    width: auto;
+    display: flex;
+    align-items: end;
+    gap: 1rem;
+}
+.excluirPerm{
+    background-color: red;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+}
+
+.editar{
+    background-color: blue;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+}
+
+.restaurar{
+    background-color: green;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+}
