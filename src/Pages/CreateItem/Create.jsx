@@ -1,7 +1,20 @@
 import './Create.css';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
+import Alert from '../../Components/Alert/Alert';
+import Sidebar from '../../Components/Sidebar/Sidebar';
+
+
 
 function Create() {
+
+  useEffect(() => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        window.location.href = "/login"; 
+      } 
+    }, []);
+
+
   const [formData, setFormData] = useState({
     descricao: "",
     endereco: "",
@@ -17,12 +30,6 @@ function Create() {
     valor: "",
   });
 
-  let [mensagem, setMensagem] = useState("");
-  let[estilo, setEstilo] = useState({
-    color: '',
-    fontSize: '20px',
-    fontWeight: 'bold',
-  });
 
   function consultarCEP() {
     const cep = formData.cep;
@@ -33,12 +40,7 @@ function Create() {
         .then(response => response.json())
         .then(data => {
             if (data.erro) {
-                setMensagem('CEP não encontrado.');
-                setEstilo({
-                  color: 'red',
-                  fontSize: '20px',
-                  fontWeight: 'bold',
-                });
+                Alert(response.message,'Erro!','error')
                 return;
             };
            setFormData(prev => ({
@@ -51,13 +53,7 @@ function Create() {
             
         })
         .catch(error => {
-            setMensagem('Ocorreu um erro ao consultar o CEP.');
-                setEstilo({
-                  color: 'red',
-                  fontSize: '20px',
-                  fontWeight: 'bold',
-                });
-            console.error('Erro:', error);
+            Alert('Erro ao Buscar CEP:','Erro!','error')
         });
   }
   
@@ -88,15 +84,7 @@ function Create() {
       });
 
       if (res.ok) {
-        setMensagem('Imóvel cadastrado com sucesso!');
-        setTimeout(() => {
-        setMensagem('');
-        }, 3000);
-        setEstilo({
-          color: 'green',
-          fontSize: '20px',
-          fontWeight: 'bold',
-        });
+       await Alert(res.message,'Sucesso!','success')
         setFormData({
           descricao: "",
           endereco: "",
@@ -112,29 +100,19 @@ function Create() {
           valor: "",
         });
       } else {
-       setMensagem('Erro ao cadastrar imóvel.');
-       setEstilo({
-        color: 'red',
-        fontSize: '20px',
-        fontWeight: 'bold',
-      });
+       await Alert(res.message,'Erro!','error')
       }
     } catch (error) {
-      console.error('Erro:', error);
-      setMensagem('Erro ao cadastrar imóvel.');
-      setEstilo({
-        color: 'red',
-        fontSize: '20px',
-        fontWeight: 'bold',
-      });
+      await Alert('Erro ao conectar ao servidor:','Erro!','error')
     }
   };
 
   
 
   return (
+    <div>
+      <Sidebar></Sidebar>
     <div className="create-container">
-      <h2 style={estilo}>{mensagem}</h2>
       <h1>Cadastro de Imóveis</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-grid">
@@ -157,6 +135,7 @@ function Create() {
         </div>
         <button type="submit" className="CadastroButton">Cadastrar Imóvel</button>
       </form>
+    </div>
     </div>
   );
 }

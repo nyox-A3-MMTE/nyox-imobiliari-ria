@@ -1,5 +1,5 @@
 .create-container {
-  background-color: #f3f4f6;
+  background-color: rgba(19, 48, 77, 0.5);
   box-sizing: border-box;
   max-width: 800px;
   min-height: 500px;
@@ -8,25 +8,20 @@
   flex-direction: column;
   border-radius: 0.375rem;
   padding: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 5);
 }
 
 .create-container h1 {
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 2rem;
   margin: 1rem 0;
-  color: #13304d;
+  color: #ffffff;
 }
 
-.create-container h2 {
-  text-align: center;
-  margin: 0.5rem 0;
-}
+
 
 form {
-  padding: 2rem;
-  background-color: #ffffff;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 0.5rem;
+  padding: 6rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -34,7 +29,7 @@ form {
 
 .form-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* duas colunas iguais */
+  grid-template-columns: 1fr 1fr; 
   gap: 1rem;
 }
 
@@ -70,7 +65,7 @@ form input:focus {
   border-radius: 0.375rem;
   cursor: pointer;
   margin-top: 1rem;
-  width: 100%; /* ocupa toda largura */
+  width: 100%; 
 }
 
 .CadastroButton:hover {
@@ -83,6 +78,6 @@ form input::placeholder {
 
 @media (max-width: 640px) {
   .form-grid {
-    grid-template-columns: 1fr; /* vira coluna única */
+    grid-template-columns: 1fr; 
   }
 }

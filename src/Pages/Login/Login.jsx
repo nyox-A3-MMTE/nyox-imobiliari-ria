@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Alert from '../../Components/Alert/Alert';
 import './Login.css';
 
 
@@ -9,7 +10,6 @@ function Login() {
     email: '',
     senha: ''
   });
-
   
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -25,21 +25,20 @@ function Login() {
         },
         body: JSON.stringify(form)
       });
+
+       const data = await response.json();
             
       if (response.ok) {
-       const data = await response.json();
        localStorage.setItem("token", data.token);
-       console.log("Login efetuado com sucesso!"+ data);
+       await Alert(data.message,'Sucesso!','success');
        navigate('/AdmPannel');
        setForm({ email: '', senha: '' });
-       
 
       } else {
-        console.log("Erro ao logar"+ data);
+      await  Alert(data.message,'Erro!','error');
       }
       }catch (error) {
-        console.error('Erro ao conectar ao servidor:', error);
-      
+       await Alert('Erro ao conectar ao servidor:','Erro!','error');
       }
        
     };
