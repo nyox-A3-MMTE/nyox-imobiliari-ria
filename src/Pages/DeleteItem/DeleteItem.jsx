@@ -89,7 +89,7 @@ function DeleteItem() {
             <div className='main'>
                 <h1>Imóveis excluidos!</h1>
                 {imoveis.map((imovel, index) => (
-                <div key={index} className="imovel">
+                <div key={index} className="imoveldelete">
                     <div>
                     <h2>{imovel.descricao}</h2>
                     <p>Bairro: {imovel.bairro}</p>

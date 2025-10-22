@@ -23,7 +23,7 @@
     margin-bottom: 1rem;
 }
 
-.imovel{
+.imovelhome{
     border: 1px solid #000000;
     padding: 1rem;
     border-radius: 8px;
@@ -34,7 +34,7 @@
     
 }
 
-.imovel p{
+.imovelhome p{
     color: white;
     padding: 0.3rem;
 }

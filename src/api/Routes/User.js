@@ -14,7 +14,7 @@ router.post('/login', async (req, res) => {
         password: req.body.senha,
     });
     if (error) {
-        return res.status(400).json({ message: 'Erro ao fazer login'+ error.code});    
+        return res.status(400).json({ message: 'Erro ao fazer login '+ error.code});    
     }else{
         return res.status(200).json({ message: 'Login realizado com sucesso', user: data.user });
     }

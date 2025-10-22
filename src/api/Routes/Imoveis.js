@@ -37,6 +37,7 @@ router.post('/register', async (req, res) => {
     }
 });
 
+//listar todos os imoveis ativos
 router.get('/list', async (req, res) => {
     try {
     let { data, error } = await supabase
@@ -56,7 +57,28 @@ router.get('/list', async (req, res) => {
     }   
 });
 
+//listar imovel ativos pelo id
+router.get('/listforid/:id', async (req, res) => {
+    try {
+    let { data, error } = await supabase
+    .from('Imoveis')
+    .select('*')
+    .eq('Ativo', true)
+    .eq('id', req.params.id);
+    if (error) {
+        console.error("Erro do Supabase:", error);
+        return res.status(400).json({ message: 'Erro ao listar imóvel' });
+    }else{
+        return res.status(200).json(data);
+    }
+    }
+    catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Erro interno do servidor' });
+    }   
+});
 
+//listar imoveis inativos
 router.get('/listInatives', async (req, res) => {
     try {
     let { data, error } = await supabase
@@ -144,5 +166,38 @@ router.delete('/deletePerm/:id', async (req, res) => {
         return res.status(500).json({ message: 'Erro interno do servidor' });
     } 
 });
+
+//editar imovel de acordo com seu id
+router.put('/edit/:id', async (req,res)=>{
+    try{
+        const { data, error } = await supabase
+            .from('Imoveis')
+            .update({ 
+                descricao: req.body.descricao,
+                endereco: req.body.endereco,
+                bairro: req.body.bairro,
+                cidade: req.body.cidade,
+                estado: req.body.estado,
+                cep: req.body.cep,
+                tipo: req.body.tipo,
+                quartos: req.body.quartos,
+                banheiros: req.body.banheiros,
+                vagas_garagem: req.body.vagas_garagem,
+                area_total: req.body.area_total,
+                valor: req.body.valor
+             })
+            .eq('id', req.params.id)
+            .select()
+        if (error) {
+            console.error("Erro do Supabase:", error);
+            return res.status(400).json({ message: 'Erro ao reativar imovel' });
+        }else{
+            return res.status(200).json({message:'Imóvel atualizado com sucesso'});
+    }
+    }catch(err){
+        console.error(err);
+        return res.status(500).json({ message: 'Erro interno do servidor' });
+    }
+})
 
 export default router;

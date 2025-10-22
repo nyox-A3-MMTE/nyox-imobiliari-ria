@@ -2,9 +2,11 @@ import './PainelAdm.css';
 import Sidebar from '../../Components/Sidebar/Sidebar';
 import { useState, useEffect } from 'react';
 import Alert from '../../Components/Alert/Alert';
+import { useNavigate } from 'react-router-dom';
 
 function PainelAdm() {
   const [imoveis, setImoveis] = useState([]);
+  const navigate = useNavigate();
    
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -73,7 +75,7 @@ function PainelAdm() {
       <div className='main'>
         <h1>Imóveis disponíveis!</h1>
         {imoveis.map((imovel, index) => (
-          <div key={index} className="imovel">
+          <div key={index} className="imovelhome">
             <div>
               <p>{imovel.id}</p>
               <h2>{imovel.descricao}</h2>
@@ -89,7 +91,7 @@ function PainelAdm() {
             </div>
             <div className='containerBotoes'>
               <div className='botoes'>
-                <button className='edita'>Editar</button>
+                <button className='edita' onClick={() => navigate('/AdmPannel/EditItem',{state: { id: imovel.id }})}>Editar</button>
                 <button className='excluir' onClick={() => handleDelete(imovel.id)}>Excluir</button>
               </div>
             </div>
