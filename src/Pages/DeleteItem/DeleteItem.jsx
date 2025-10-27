@@ -1,9 +1,16 @@
 import Sidebar from '../../Components/Sidebar/Sidebar';
 import { useState, useEffect } from 'react';
 import './DeleteItem.css';
+import Alert from '../../Components/Alert/Alert';
 function DeleteItem() {
-    const [imoveis, setImoveis] = useState([]);
 
+  const [imoveis, setImoveis] = useState([]);
+  useEffect(() => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        window.location.href = "/login"; 
+      } 
+    }, []);
 
   async function listaImoveis() {
     try {
@@ -35,12 +42,16 @@ function DeleteItem() {
             if (response.ok) {
             const reactivatedImovel = await response.json();
             setImoveis(prevImoveis => prevImoveis.filter(imovel => imovel.id !== reactivatedImovel.id));
+            await Alert('Imóvel foi reativado!','Sucesso!','success')
 
       } else {
         console.error('Erro na resposta do servidor');
+         await Alert('Erro ao processar!','Erro!','error')
+
         }
       } catch (error) {
       console.error('Erro ao conectar ao servidor:', error);
+      await Alert('Erro ao processar!','Erro!','error')
     }
   }
 
@@ -55,11 +66,14 @@ function DeleteItem() {
             if (response.ok) {
             const deletedPermImovel = await response.json();
             setImoveis(prevImoveis => prevImoveis.filter(imovel => imovel.id !== deletedPermImovel.id));
+            await Alert('Imóvel foi deletado permanentemente!','Sucesso!','success')
       } else {
         console.error('Erro na resposta do servidor');
+        await Alert('Erro ao processar!','Erro!','error')
         }
       } catch (error) {
       console.error('Erro ao conectar ao servidor:', error);
+      await Alert('Erro ao processar!','Erro!','error')
     }
         }
 
@@ -75,7 +89,7 @@ function DeleteItem() {
             <div className='main'>
                 <h1>Imóveis excluidos!</h1>
                 {imoveis.map((imovel, index) => (
-                <div key={index} className="imovel">
+                <div key={index} className="imoveldelete">
                     <div>
                     <h2>{imovel.descricao}</h2>
                     <p>Bairro: {imovel.bairro}</p>

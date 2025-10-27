@@ -23,7 +23,7 @@
     margin-bottom: 1rem;
 }
 
-.imovel{
+.imovelhome{
     border: 1px solid #000000;
     padding: 1rem;
     border-radius: 8px;
@@ -34,7 +34,7 @@
     
 }
 
-.imovel p{
+.imovelhome p{
     color: white;
     padding: 0.3rem;
 }
@@ -48,8 +48,8 @@
     align-items: end;
     gap: 1rem;
 }
-.excluir{
-    background-color: red;
+.edita{
+    background-color: rgba(0, 0, 255, 0.2);
     border: none;
     padding: 0.5rem;
     border-radius: 8px;
@@ -57,11 +57,19 @@
     cursor: pointer;
 }
 
-.editar{
-    background-color: blue;
+.edita:hover{
+    background-color:blue;
+}
+.excluir{
+    background-color: rgba(255, 0, 0, 0.4);
     border: none;
     padding: 0.5rem;
     border-radius: 8px;
     color: white;
     cursor: pointer;
 }
+
+.excluir:hover{
+    background-color: red;
+}
+

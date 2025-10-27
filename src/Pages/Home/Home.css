@@ -25,18 +25,19 @@ header a{
     text-decoration: none;
     color: black;
     font-weight: bold;
-    min-width: 9rem;
+    min-width: 10rem;
     padding: 2%;
 }
 
 header a:hover{ 
+    background-color: rgb(19, 48, 77);
     color: white;
     border-radius: 20px;
     transition: 0.3s;
 }
 
 .admin{
-    background-color: rgb(19, 47, 77); 
+    background-color: rgba(19, 48, 77, 0.8); 
     border-radius: 20px;
 }
 

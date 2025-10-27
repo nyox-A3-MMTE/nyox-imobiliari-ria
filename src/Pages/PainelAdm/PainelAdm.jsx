@@ -1,9 +1,12 @@
 import './PainelAdm.css';
 import Sidebar from '../../Components/Sidebar/Sidebar';
 import { useState, useEffect } from 'react';
+import Alert from '../../Components/Alert/Alert';
+import { useNavigate } from 'react-router-dom';
 
 function PainelAdm() {
   const [imoveis, setImoveis] = useState([]);
+  const navigate = useNavigate();
    
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -22,8 +25,6 @@ function PainelAdm() {
         }
       });
       if (response.ok) {
-
-        console.log("Lista de imoveis carregada com sucesso!");
         
         const data = await response.json();
         setImoveis(data); 
@@ -48,12 +49,16 @@ function PainelAdm() {
             if (response.ok) {
             const deletedImovel = await response.json();
             setImoveis(prevImoveis => prevImoveis.filter(imovel => imovel.id !== deletedImovel.id));
+            await Alert(response.message,'Sucesso!','success')
+
 
       } else {
         console.error('Erro na resposta do servidor');
-        }
+        await Alert(response.message,'Erro!','error')
+    }
       } catch (error) {
       console.error('Erro ao conectar ao servidor:', error);
+      await Alert(error,'imóvel não foi enviado para itens excluidos!','Erro!','error')
     }
   }
 
@@ -70,7 +75,7 @@ function PainelAdm() {
       <div className='main'>
         <h1>Imóveis disponíveis!</h1>
         {imoveis.map((imovel, index) => (
-          <div key={index} className="imovel">
+          <div key={index} className="imovelhome">
             <div>
               <p>{imovel.id}</p>
               <h2>{imovel.descricao}</h2>
@@ -86,7 +91,7 @@ function PainelAdm() {
             </div>
             <div className='containerBotoes'>
               <div className='botoes'>
-                <button className='editar'>Editar</button>
+                <button className='edita' onClick={() => navigate('/AdmPannel/EditItem',{state: { id: imovel.id }})}>Editar</button>
                 <button className='excluir' onClick={() => handleDelete(imovel.id)}>Excluir</button>
               </div>
             </div>
