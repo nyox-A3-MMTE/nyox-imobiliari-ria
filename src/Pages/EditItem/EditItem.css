@@ -32,6 +32,11 @@
     padding: 0.3rem;
 }
 
+.resize{
+  resize: horizontal;
+  overflow: auto
+}
+
 .edit-container h1 {
   text-align: center;
   font-size: 2rem;

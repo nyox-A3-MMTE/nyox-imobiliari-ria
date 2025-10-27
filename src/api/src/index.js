@@ -1,6 +1,7 @@
 import express from 'express'
 import userRoute from './Routes/User.js'
 import imovelRoute from './Routes/Imoveis.js'
+import { swaggerUi, swaggerSpec } from "./Config/Swagger.js";
 import cors from 'cors'
 const app = express()
 
@@ -8,6 +9,8 @@ app.use(express.json())
 app.use(cors({
   origin: "http://localhost:5173" 
 }));
+
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use("/users",userRoute)
 app.use("/imoveis",imovelRoute)
