@@ -25,7 +25,7 @@ header a{
     text-decoration: none;
     color: black;
     font-weight: bold;
-    min-width: 10rem;
+    min-width: 8rem;
     padding: 2%;
 }
 
@@ -39,10 +39,13 @@ header a:hover{
 .admin{
     background-color: rgba(19, 48, 77, 0.8); 
     border-radius: 20px;
+    min-width: 11rem;
+   
+    
 }
 
 header li{
-    padding-left: 40%;
+    padding-left: 50%;
     list-style: none;
     display: flex;
 }
