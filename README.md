@@ -1,6 +1,6 @@
 # Nyox Imobiliária
 
-Aplicação web para gerenciamento e visualização de imóveis, utilizando **Supabase** como backend e uma interface moderna com **JavaScript**.
+Este é um sistema de gerenciamento imobiliário completo, projetado para otimizar a listagem, busca e administração de propriedades. O sistema é construído com uma arquitetura moderna e escalável, utilizando tecnologias de ponta para garantir uma experiência de usuário rápida e um desenvolvimento eficiente.
 
 ---
 
@@ -55,6 +55,51 @@ O frontend será iniciado em modo de desenvolvimento.
 - **Supabase**
 - **Vite**
 - **JavaScript (ES6+)**
+
+---
+
+## Estrutura do Projeto
+
+Abaixo está a estrutura de pastas do projeto. O diretório principal inclui o frontend (arquivos em src) e um mini-repositório em src/api que contém a API para conexão com o Supabase. Abaixo segue o layout de pastas para referência.
+```
+NYOX-IMOBILIARI-RIA
+    ├── node_modules/
+    ├── public/
+    ├── src/
+    │   ├── api/
+    │   │   ├── node_modules/
+    │   │   ├── src/
+    │   │   ├── .env
+    │   │   ├── package-lock.json
+    │   │   ├── package.json
+    │   │   └── vercel.json
+    │   ├── assets/
+    │   ├── Components/
+    │   ├── Pages/
+    │   ├── index.css
+    │   ├── main.jsx
+    │   ├── .gitignore
+    │   ├── eslint.config.js
+    │   ├── index.html
+    │   ├── package-lock.json
+    │   ├── package.json
+    │   ├── README.md
+    │   └── vite.config.js
+```
+---
+## Contribuidores
+
+Lista de contribuintes do projeto:
+
+1. **Carlos Eduardo da Silva** — RA: 42413109  
+2. **Gustavo Henrique dos Santos** — RA: 42424538  
+3. **Henrique Oliveira Ferreira** — RA: 42414581  
+4. **João Vitor Martins Matos** — RA: 42414921  
+5. **Heitor Zeferino Siqueira** — RA: 42521884  
+6. **Pedro Henriques Ferreira** — RA: 42411210  
+7. **Rodrigo Queiroz Vieira Freire** — RA: 42414808  
+
+Como contribuir: abra uma issue ou envie um pull request no repositório descrevendo as alterações propostas. Obrigado pela colaboração!
 
 ---
 
