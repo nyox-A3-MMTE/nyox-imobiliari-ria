@@ -1,9 +1,7 @@
-import './Create.css';
-import { useState,useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Alert from '../../Components/Alert/Alert';
 import Sidebar from '../../Components/Sidebar/Sidebar';
-
-
+import './Create.css';
 
 function Create() {
 
@@ -28,7 +26,10 @@ function Create() {
     vagas_garagem: "",
     area_total: "",
     valor: "",
+    imagens: [],
   });
+  
+  const [previews, setPreviews] = useState([]);
 
 
   function consultarCEP() {
@@ -64,23 +65,29 @@ function Create() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const payload = {
-    ...formData,
-    cep: Number(formData.cep),
-    quartos: Number(formData.quartos),
-    banheiros: Number(formData.banheiros),
-    vagas_garagem: Number(formData.vagas_garagem),
-    area_total: Number(formData.area_total),
-    valor: Number(formData.valor),
-  };
+    const payload = new FormData();
 
+    payload.append("descricao", formData.descricao);
+    payload.append("endereco", formData.endereco);
+    payload.append("bairro", formData.bairro);
+    payload.append("cidade", formData.cidade);
+    payload.append("estado", formData.estado);
+    payload.append("tipo", formData.tipo);
+    payload.append("cep", Number(formData.cep));
+    payload.append("quartos", Number(formData.quartos));
+    payload.append("banheiros", Number(formData.banheiros));
+    payload.append("vagas_garagem", Number(formData.vagas_garagem));
+    payload.append("area_total", Number(formData.area_total));
+    payload.append("valor", Number(formData.valor));
 
+    formData.imagens.forEach((file) => {
+      payload.append("imagens", file)
+    });
 
     try {
       const res = await fetch('http://localhost:8800/imoveis/register', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+        body: payload
       });
 
       if (res.ok) {
@@ -98,7 +105,9 @@ function Create() {
           vagas_garagem: "",
           area_total: "",
           valor: "",
+          imagens: [],
         });
+        setPreviews([]);
       } else {
        await Alert(res.message,'Erro!','error')
       }
@@ -107,8 +116,26 @@ function Create() {
     }
   };
 
-  
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files)
+    
+    const limit = 5;
+    const total = formData.imagens.length + files.length;
+    
+    if(total > limit){
+      Alert(`Limite de ${limit} imagens atingido.`, "Atenção!", "warning")
+      return;
+    }
 
+    setFormData((prev) => ({
+      ...prev,
+      imagens: [...prev.imagens, ...files],
+    }));
+
+    const newPreviews = files.map((file) => URL.createObjectURL(file));
+    setPreviews((prev) => [...prev, ...newPreviews]);
+  };
+  
   return (
     <div>
       <Sidebar></Sidebar>
@@ -131,6 +158,19 @@ function Create() {
             <input type="number" name="vagas_garagem" placeholder="Vagas de garagem" value={formData.vagas_garagem} onChange={handleChange} />
             <input type="number" step="0.01" name="area_total" placeholder="Área total (m²)" value={formData.area_total} onChange={handleChange} />
             <input type="number" step="0.01" name="valor" placeholder="Valor (R$)" value={formData.valor} onChange={handleChange} />
+          </div>
+          <div className="form-down">
+            <input type="file" accept="image/*" multiple name="image" onChange={handleImageChange}/>
+            <div className="preview-container">
+              {previews.map((src, index) =>(
+                <img
+                  key={index}
+                  src={src}
+                  alt={`Preview ${index + 1}`}
+                  className="w-32 h-32 object-cover rounded mr-2"
+                  />
+              ))}
+            </div>
           </div>
         </div>
         <button type="submit" className="CadastroButton">Cadastrar Imóvel</button>
