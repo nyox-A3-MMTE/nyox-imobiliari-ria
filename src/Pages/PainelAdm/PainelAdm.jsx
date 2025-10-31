@@ -1,8 +1,9 @@
-import './PainelAdm.css';
-import Sidebar from '../../Components/Sidebar/Sidebar';
-import { useState, useEffect } from 'react';
-import Alert from '../../Components/Alert/Alert';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Alert from '../../Components/Alert/Alert';
+import AnuncioCard from '../../Components/AnuncioCard/AnuncioCard';
+import Sidebar from '../../Components/Sidebar/Sidebar';
+import './PainelAdm.css';
 
 function PainelAdm() {
   const [imoveis, setImoveis] = useState([]);
@@ -78,16 +79,7 @@ function PainelAdm() {
           <div key={index} className="imovelhome">
             <div>
               <p>{imovel.id}</p>
-              <h2>{imovel.descricao}</h2>
-              <p>Bairro: {imovel.bairro}</p>
-              <p>Cidade: {imovel.cidade}</p>
-              <p>Estado: {imovel.estado}</p>
-              <p>Tipo: {imovel.tipo}</p>
-              <p>Quartos: {imovel.quartos}</p>
-              <p>Banheiros: {imovel.banheiros}</p>
-              <p>Vagas na garagem: {imovel.vagas_garagem}</p>
-              <p>Área total: {imovel.area_total} m²</p>
-              <p>Valor: {imovel.valor}</p>
+              <AnuncioCard imovel={imovel} onButtonClick={() => {}}/>
             </div>
             <div className='containerBotoes'>
               <div className='botoes'>

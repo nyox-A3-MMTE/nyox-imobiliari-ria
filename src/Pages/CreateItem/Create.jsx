@@ -84,6 +84,10 @@ function Create() {
       payload.append("imagens", file)
     });
 
+    if(formData.imagens.length < 3){
+      Alert('Minimo de 3 imagens devem ser selecionadas','Atenção!','warning')
+      return
+    }
     try {
       const res = await fetch('http://localhost:8800/imoveis/register', {
         method: 'POST',
@@ -119,7 +123,7 @@ function Create() {
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files)
     
-    const limit = 5;
+    const limit = 10;
     const total = formData.imagens.length + files.length;
     
     if(total > limit){
@@ -160,17 +164,27 @@ function Create() {
             <input type="number" step="0.01" name="valor" placeholder="Valor (R$)" value={formData.valor} onChange={handleChange} />
           </div>
           <div className="form-down">
-            <input type="file" accept="image/*" multiple name="image" onChange={handleImageChange}/>
-            <div className="preview-container">
-              {previews.map((src, index) =>(
-                <img
-                  key={index}
-                  src={src}
-                  alt={`Preview ${index + 1}`}
-                  className="w-32 h-32 object-cover rounded mr-2"
-                  />
-              ))}
-            </div>
+            <label htmlFor="file-upload" className="upload-label">
+              Selecionar imagens
+            </label>
+            <input type="file" id="file-upload" accept="image/*" multiple name="image" onChange={handleImageChange}/>
+
+            {previews.length > 0 && (
+              <div className="preview-container">
+                {previews.map((src, index) =>(
+                  <div key={index} className="preview-item">
+                    <img
+                      key={index}
+                      src={src}
+                      alt={`Preview ${index + 1}`}
+                      className="imagem-box"
+                      />
+                    <span className="preview-index">{index + 1}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+
           </div>
         </div>
         <button type="submit" className="CadastroButton">Cadastrar Imóvel</button>

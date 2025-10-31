@@ -81,8 +81,13 @@ const router = Router();
  *                 format: float
  *                 example: 250000.00
  *               imagens:
- *                 type: list
- *                 format:
+ *                 type: array
+ *                 example: [
+ *                            "https://example.com/images/property1.jpg",
+ *                            "https://example.com/images/property2.jpg",
+ *                            "https://example.com/images/property3.jpg",
+ *                            "https://example.com/images/property4.jpg"    
+ *                          ]
  *     responses:
  *       200:
  *         description: Imóvel inserido com sucesso
@@ -277,6 +282,8 @@ router.get('/list', async (req, res) => {
  *                   format: float
  *                 Ativo:
  *                   type: boolean
+ *                 imagens:
+ *                   type: array
  *       400:
  *         description: Imóvel não encontrado ou erro na busca
  *         content:
@@ -585,6 +592,8 @@ router.delete('/deletePerm/:id', async (req, res) => {
  *               valor:
  *                 type: number
  *                 format: float
+ *               imagens:
+ *                 type: array
  *     responses:
  *       200:
  *         description: Imóvel atualizado com sucesso
