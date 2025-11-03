@@ -1,7 +1,7 @@
 
 
 .create-container {
-  background-color: rgba(19, 48, 77, 0.5);
+  background-color: rgba(163, 163, 163, 0.5);
   box-sizing: border-box;
   max-width: 800px;
   min-height: 500px;
@@ -17,7 +17,7 @@
   text-align: center;
   font-size: 2rem;
   margin: 1rem 0;
-  color: #ffffff;
+  color: #000000;
 }
 
 

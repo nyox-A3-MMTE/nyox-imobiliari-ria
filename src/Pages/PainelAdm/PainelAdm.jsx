@@ -3,6 +3,9 @@ import Sidebar from '../../Components/Sidebar/Sidebar';
 import { useState, useEffect } from 'react';
 import Alert from '../../Components/Alert/Alert';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons'
+
 
 function PainelAdm() {
   const [imoveis, setImoveis] = useState([]);
@@ -61,6 +64,7 @@ function PainelAdm() {
       await Alert(error,'imóvel não foi enviado para itens excluidos!','Erro!','error')
     }
   }
+  
 
 
   useEffect(() => {
@@ -73,11 +77,9 @@ function PainelAdm() {
     <div className='painelAdm'>
       <Sidebar/>
       <div className='main'>
-        <h1>Imóveis disponíveis!</h1>
         {imoveis.map((imovel, index) => (
           <div key={index} className="imovelhome">
             <div>
-              <p>{imovel.id}</p>
               <h2>{imovel.descricao}</h2>
               <p>Bairro: {imovel.bairro}</p>
               <p>Cidade: {imovel.cidade}</p>
@@ -91,8 +93,8 @@ function PainelAdm() {
             </div>
             <div className='containerBotoes'>
               <div className='botoes'>
-                <button className='edita' onClick={() => navigate('/AdmPannel/EditItem',{state: { id: imovel.id }})}>Editar</button>
-                <button className='excluir' onClick={() => handleDelete(imovel.id)}>Excluir</button>
+                <button className='edita' onClick={() => navigate('/AdmPannel/EditItem',{state: { id: imovel.id }})}><FontAwesomeIcon icon={faEdit} /></button>
+                <button className='excluir' onClick={() => handleDelete(imovel.id)}><FontAwesomeIcon icon={faTrash} /></button>
               </div>
             </div>
           </div>

@@ -135,8 +135,8 @@ router.post('/register', async (req, res) => {
           tipo: req.body.tipo,
           quartos: req.body.quartos,
           banheiros: req.body.banheiros,
-          vagas_garagem: req.body.vagasGaragem,
-          area_total: req.body.areaTotal,
+          vagas_garagem: req.body.vagas_garagem,
+          area_total: req.body.area_total,
           valor: req.body.valor
         }
       ]);
@@ -278,7 +278,6 @@ router.get('/listforid/:id', async (req, res) => {
     let { data, error } = await supabase
       .from('Imoveis')
       .select('*')
-      .eq('Ativo', true)
       .eq('id', req.params.id);
     if (error) {
       console.error("Erro do Supabase:", error);

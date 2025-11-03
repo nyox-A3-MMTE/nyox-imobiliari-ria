@@ -15,7 +15,7 @@ function App() {
       <Route path="/AdmPannel" element={<PainelAdm />} />
       <Route path="/AdmPannel/create" element={<Create />} />
       <Route path="/AdmPannel/delete" element={<DeleteItem />} />
-       <Route path="/AdmPannel/EditItem" element={<EditItem />} />
+      <Route path="/AdmPannel/EditItem" element={<EditItem />} />
     </Routes>
   );
 }

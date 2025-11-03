@@ -76,6 +76,7 @@ function Create() {
 
 
 
+
     try {
       const res = await fetch('http://localhost:8800/imoveis/register', {
         method: 'POST',

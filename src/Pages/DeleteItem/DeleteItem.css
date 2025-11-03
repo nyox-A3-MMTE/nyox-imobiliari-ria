@@ -4,17 +4,20 @@
 }
 
 .imoveldelete{
-    border: 1px solid #000000;
+    border: 0.1px solid #b1b1b1;
     padding: 1rem;
     border-radius: 8px;
-    background-color: rgba(19, 48, 77, 0.5);
-    justify-content: space-between;
+    min-width: 30rem;
     display: flex;
+    flex-direction: column;
+    resize: horizontal;
+    overflow: auto;
+    gap: 3rem;
 
 }
 
 .imoveldelete p{
-    color: white;
+    color: rgb(0, 0, 0);
     padding: 0.3rem;
 }
 .containerBotoes{

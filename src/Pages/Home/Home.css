@@ -36,7 +36,7 @@ header a:hover{
     transition: 0.3s;
 }
 
-.admin{
+.cadastrar{
     background-color: rgba(19, 48, 77, 0.8); 
     border-radius: 20px;
     min-width: 11rem;

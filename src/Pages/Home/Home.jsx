@@ -1,5 +1,7 @@
 import './Home.css';
 import logo from '../../assets/logo.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons'
 function Home() {
   return (
     <div className='home-container'>
@@ -8,7 +10,7 @@ function Home() {
         <li>
             <a href="/">Imóveis</a>
             <a href="/">Sobre nós</a>
-            <a className ="admin"href="/login">Administrador</a>
+            <a className='cadastrar' href="/login"><FontAwesomeIcon icon={faUser} size="lg" />Cadastrar</a>
            
         </li>
       </header>
