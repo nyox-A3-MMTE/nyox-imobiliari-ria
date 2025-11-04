@@ -6,6 +6,7 @@ import PainelAdm from '../PainelAdm/PainelAdm.jsx';
 import Create from '../CreateItem/Create.jsx';
 import DeleteItem from '../DeleteItem/DeleteItem.jsx';
 import EditItem from '../EditItem/EditItem.jsx';
+import Main from '../Main/Main.jsx'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Route path="/AdmPannel/create" element={<Create />} />
       <Route path="/AdmPannel/delete" element={<DeleteItem />} />
       <Route path="/AdmPannel/EditItem" element={<EditItem />} />
+      <Route path="/Main" element={<Main />} />
     </Routes>
   );
 }

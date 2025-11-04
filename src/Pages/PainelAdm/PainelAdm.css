@@ -24,6 +24,7 @@
     border: 0.1px solid #b1b1b1;
     padding: 1rem;
     border-radius: 8px;
+    width: 30rem;
     min-width: 30rem;
     display: flex;
     flex-direction: column;

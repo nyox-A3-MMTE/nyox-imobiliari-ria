@@ -24,7 +24,7 @@ function Login() {
   };
 
   const handleChangeRegister = (e) => {
-    setform({ ...form, [e.target.name]: e.target.value });
+    setformregister({ ...formregister, [e.target.name]: e.target.value });
     };
 
   const handleSubmitLogin = async (e) => {
@@ -44,10 +44,15 @@ function Login() {
        if(data.type == "adm"){
         localStorage.setItem("token", data.token);
         await Alert(data.message,'Sucesso!','success');
+        setTimeout(() => {
         navigate('/AdmPannel');
+        }, 2000)
        }else{
+        localStorage.setItem("token", data.token)
         await Alert(data.message,'Sucesso!','success');
+        setTimeout(() => {
         navigate('/');
+        }, 2000)
        }
        setForm({ email: '', senha: '' });
 
@@ -70,14 +75,14 @@ function Login() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(form)
+        body: JSON.stringify(formregister)
       });
 
       const data = await response.json({});
 
       if(response.ok){
         await Alert(data.message,'Sucesso!','success')
-          setform({
+          setformregister({
                   nome:'',
                   email:'',
                   idade:'',
@@ -90,7 +95,7 @@ function Login() {
       }
     } catch (error) {
       await Alert('Erro ao conectar ao servidor:','Erro!','error')
-      console.log(error);
+      
     }
     }
 
@@ -169,6 +174,7 @@ function Login() {
             required
           />
         <button type="submit" >Enviar</button>
+        <button  type="button"  onClick={()=>window.location="/"}>Sair</button>
       </form>
     </div>
   );

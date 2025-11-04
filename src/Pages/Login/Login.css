@@ -3,7 +3,7 @@
 .login-container {
     display: flex;
     flex-direction: row;
-    max-width: 800px;
+    max-width: 900px;
     margin: 60px auto;
     background: rgba(255,255,255,0.95);
     border-radius: 16px;
@@ -64,4 +64,5 @@
 .login-container button:hover {
     background: #1a4066;
 }
+
 

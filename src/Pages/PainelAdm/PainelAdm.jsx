@@ -1,22 +1,56 @@
-import './PainelAdm.css';
-import Sidebar from '../../Components/Sidebar/Sidebar';
-import { useState, useEffect } from 'react';
-import Alert from '../../Components/Alert/Alert';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons'
+import Alert from '../../Components/Alert/Alert';
+import AnuncioCard from '../../Components/AnuncioCard/AnuncioCard';
+import Sidebar from '../../Components/Sidebar/Sidebar';
+import './PainelAdm.css';
+import jwt_decode from "jwt-decode";
+
+
+
 
 
 function PainelAdm() {
   const [imoveis, setImoveis] = useState([]);
   const navigate = useNavigate();
+
    
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      window.location.href = "/login"; 
-    } 
-  }, []);
+  const token = localStorage.getItem("token");
+  if (!token) {
+    Alert("Você não está logado",'Erro!','error')
+    navigate("/login");
+    return;
+  }
+
+  try {
+    const decoded = jwt_decode(token);
+    
+
+    
+    const now = Math.floor(Date.now() / 1000);
+    if (decoded.exp && decoded.exp < now) {
+      Alert("Seu login expirou!",'Alerta!','alert')
+      localStorage.removeItem("token");
+      navigate("/login");
+      return;
+    }
+
+  
+    if (decoded.type !== "adm") {
+      Alert("Seu usuário não tem permissões necessárias!",'Erro!','error')
+      navigate("/login");
+      return;
+    }
+
+     Alert('Acesso permitido!','Sucesso!','success')
+  } catch (err) {
+    console.error("Erro ao decodificar token:", err);
+    navigate("/login");
+  }
+}, []);
 
  
   async function listaImoveis() {
@@ -31,6 +65,7 @@ function PainelAdm() {
         
         const data = await response.json();
         setImoveis(data); 
+        console.log(data)
       } else {
         console.error('Erro na resposta do servidor');
       }
@@ -80,16 +115,11 @@ function PainelAdm() {
         {imoveis.map((imovel, index) => (
           <div key={index} className="imovelhome">
             <div>
+
               <h2>{imovel.descricao}</h2>
-              <p>Bairro: {imovel.bairro}</p>
-              <p>Cidade: {imovel.cidade}</p>
-              <p>Estado: {imovel.estado}</p>
-              <p>Tipo: {imovel.tipo}</p>
-              <p>Quartos: {imovel.quartos}</p>
-              <p>Banheiros: {imovel.banheiros}</p>
-              <p>Vagas na garagem: {imovel.vagas_garagem}</p>
-              <p>Área total: {imovel.area_total} m²</p>
-              <p>Valor: {imovel.valor}</p>
+              
+              <AnuncioCard imovel={imovel} onButtonClick={() => {}}/>
+
             </div>
             <div className='containerBotoes'>
               <div className='botoes'>
@@ -105,3 +135,4 @@ function PainelAdm() {
 }
 
 export default PainelAdm;
+
