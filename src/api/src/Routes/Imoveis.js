@@ -1,5 +1,9 @@
 import { Router } from "express";
+import multer from "multer";
 import supabase from '../Connection/Supabase.js';
+import uploadFile from "../Upload/imageUpload.js";
+const upload = multer({ storage: multer.memoryStorage() });
+
 
 const router = Router();
 
@@ -36,6 +40,7 @@ const router = Router();
  *               - vagasGaragem
  *               - areaTotal
  *               - valor
+ *               - imagens
  *             properties:
  *               descricao:
  *                 type: string
@@ -75,6 +80,14 @@ const router = Router();
  *                 type: number
  *                 format: float
  *                 example: 250000.00
+ *               imagens:
+ *                 type: array
+ *                 example: [
+ *                            "https://example.com/images/property1.jpg",
+ *                            "https://example.com/images/property2.jpg",
+ *                            "https://example.com/images/property3.jpg",
+ *                            "https://example.com/images/property4.jpg"    
+ *                          ]
  *     responses:
  *       200:
  *         description: Imóvel inserido com sucesso
@@ -120,26 +133,44 @@ const router = Router();
  *                   type: string
  *                   example: Erro interno do servidor
  */
-router.post('/register', async (req, res) => {
+router.post('/register', upload.array("imagens", 5), async (req, res) => {
   try {
+
+    const body = {
+      descricao: req.body.descricao,
+      endereco: req.body.endereco,
+      bairro: req.body.bairro,
+      cidade: req.body.cidade,
+      estado: req.body.estado,
+      cep: Number(req.body.cep),
+      tipo: req.body.tipo,
+      quartos: Number(req.body.quartos),
+      banheiros: Number(req.body.banheiros),
+      vagas_garagem: Number(req.body.vagas_garagem),
+      area_total: Number(req.body.area_total),
+      valor: Number(req.body.valor),
+    };
+
+    let imageUrls = []
+    if (req.files && req.files.length > 0) {
+      imageUrls = await Promise.all(
+        req.files.map(async (file) => {
+          try {
+            const data = await uploadFile(file);
+            return data;
+          } catch (err) {
+            console.clear()
+            console.error("Erro ao realizar upload da imagem:", err);
+            return null;
+          }
+        })
+      );
+    }
+    body.imagens = imageUrls.filter(Boolean)
+    
     const { data, error } = await supabase
       .from("Imoveis")
-      .insert([
-        {
-          descricao: req.body.descricao,
-          endereco: req.body.endereco,
-          bairro: req.body.bairro,
-          cidade: req.body.cidade,
-          estado: req.body.estado,
-          cep: req.body.cep,
-          tipo: req.body.tipo,
-          quartos: req.body.quartos,
-          banheiros: req.body.banheiros,
-          vagas_garagem: req.body.vagasGaragem,
-          area_total: req.body.areaTotal,
-          valor: req.body.valor
-        }
-      ]);
+      .insert([body]);
     if (error) {
       console.error("Erro do Supabase:", error);
       return res.status(400).json({ success: false, message: 'Erro ao inserir imóvel' });
@@ -251,6 +282,8 @@ router.get('/list', async (req, res) => {
  *                   format: float
  *                 Ativo:
  *                   type: boolean
+ *                 imagens:
+ *                   type: array
  *       400:
  *         description: Imóvel não encontrado ou erro na busca
  *         content:
@@ -278,7 +311,6 @@ router.get('/listforid/:id', async (req, res) => {
     let { data, error } = await supabase
       .from('Imoveis')
       .select('*')
-      .eq('Ativo', true)
       .eq('id', req.params.id);
     if (error) {
       console.error("Erro do Supabase:", error);
@@ -559,6 +591,8 @@ router.delete('/deletePerm/:id', async (req, res) => {
  *               valor:
  *                 type: number
  *                 format: float
+ *               imagens:
+ *                 type: array
  *     responses:
  *       200:
  *         description: Imóvel atualizado com sucesso

@@ -7,40 +7,40 @@
     margin-left:17%;
     min-width: 80%;
     max-height: 100%;
-    flex-direction: column;
-    gap: 1rem;
+    flex-direction: row;
+    gap: 0.5rem;
     padding: 1rem;
-    overflow-y: auto;
-    position: fixed;
-  
-;
-   
+    flex-wrap: wrap;
 }
 
 .main h1{
- 
     text-align: center;
     margin-bottom: 1rem;
 }
 
+
+
 .imovelhome{
-    border: 1px solid #000000;
+    border: 0.1px solid #b1b1b1;
     padding: 1rem;
     border-radius: 8px;
-    background-color: rgba(19, 48, 77, 0.5);
-    justify-content: space-between;
+    width: 30rem;
+    min-width: 30rem;
     display: flex;
-
-    
+    flex-direction: column;
+    resize: horizontal;
+    overflow: auto;
+    gap: 3rem;
 }
 
 .imovelhome p{
-    color: white;
+    color: rgb(0, 0, 0);
     padding: 0.3rem;
 }
 .botoes{
     display: flex;
     gap: 1rem;
+    
 }
 .containerBotoes{
     width: auto;
@@ -49,27 +49,25 @@
     gap: 1rem;
 }
 .edita{
-    background-color: rgba(0, 0, 255, 0.2);
+    background-color: rgb(0, 0, 255);
     border: none;
     padding: 0.5rem;
     border-radius: 8px;
     color: white;
     cursor: pointer;
+    width: 5rem;
 }
 
-.edita:hover{
-    background-color:blue;
-}
+
+
 .excluir{
-    background-color: rgba(255, 0, 0, 0.4);
+    background-color: rgb(255, 0, 0);
     border: none;
     padding: 0.5rem;
     border-radius: 8px;
     color: white;
     cursor: pointer;
+    width: 5rem;
 }
 
-.excluir:hover{
-    background-color: red;
-}
 

@@ -2,8 +2,12 @@ import Sidebar from '../../Components/Sidebar/Sidebar';
 import { useState, useEffect } from 'react';
 import './DeleteItem.css';
 import Alert from '../../Components/Alert/Alert';
-function DeleteItem() {
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faEdit,faUndo } from '@fortawesome/free-solid-svg-icons'
+import { useNavigate } from 'react-router-dom';
 
+function DeleteItem() {
+  const navigate = useNavigate();
   const [imoveis, setImoveis] = useState([]);
   useEffect(() => {
       const token = localStorage.getItem("token");
@@ -87,7 +91,6 @@ function DeleteItem() {
         <div>
             <Sidebar/>
             <div className='main'>
-                <h1>Imóveis excluidos!</h1>
                 {imoveis.map((imovel, index) => (
                 <div key={index} className="imoveldelete">
                     <div>
@@ -104,9 +107,9 @@ function DeleteItem() {
                     </div>
                     <div className='containerBotoes'>
                             <div className='botoes'>
-                                <button className='restaurar' onClick={() => handleReactivate(imovel.id)}>Restaurar</button>
-                                <button className='editar'>Editar</button>
-                                <button className='excluirPerm' onClick={() => handleDeletePerm(imovel.id)}>Excluir permanentemente</button>
+                                <button className='restaurar' onClick={() => handleReactivate(imovel.id)}><FontAwesomeIcon icon={faUndo} />Restaurar</button>
+                                <button className='edita' onClick={() => navigate('/AdmPannel/EditItem',{state: { id: imovel.id }})}><FontAwesomeIcon icon={faEdit} />Editar</button>
+                                <button className='excluirPerm' onClick={() => handleDeletePerm(imovel.id)}><FontAwesomeIcon icon={faTrash} />Excluir permanentemente</button>
                             </div>
                     </div>
                 </div>

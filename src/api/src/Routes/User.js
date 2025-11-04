@@ -1,8 +1,13 @@
 import {Router} from "express";
 import supabase from '../Connection/Supabase.js'
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+
+
 
 
 const router = Router();
+const JWT_SECRET = process.env.JWT_SECRET;
 
 
 /**
@@ -72,21 +77,94 @@ const router = Router();
 
 
 router.post('/login', async (req, res) => {
+
+    let type = "";
+
     try {
     let{data,error} = await supabase.auth.signInWithPassword({
         email: req.body.email,
         password: req.body.senha,
     });
     if (error) {
-        return res.status(400).json({ message: 'Erro ao fazer login '+ error.code});    
-    }else{
-        return res.status(200).json({ message: 'Login realizado com sucesso', user: data.user });
-    }
-    }
+        try{
+            const { data, error } = await supabase
+            .from("Visitantes")
+            .select('*')
+            .eq('email',req.body.email)
+            .single();
+            if (error) {
+            return res.status(400).json({ success: false, message: 'Usuário não encontrado' });
+            } else {
+                console.log(data);
+                const senhaValida = await bcrypt.compare(req.body.senha, data.senha);
+                if (!senhaValida) {
+                    return res.status(400).json({ success: false, message: 'Senha incorreta!' });
+                }else{
+                    type = "visit";
+                    const token = jwt.sign(
+                    { id: data.id, email: data.email, nome:data.nome,type },
+                    JWT_SECRET,
+                    { expiresIn: '1h' }
+                    );
+                    return res.status(200).json({ success: true, message: 'Usuário logado com sucesso!', type, token });
+                }
+            }
+            } catch (err) {
+                console.error(err);
+                return res.status(500).json({ success: false, message: 'Erro interno do servidor' });
+            }   
+            }else{
+                type = "adm";
+                const token = jwt.sign(
+                    { id: data.user.id, email: data.user.email,type },
+                    JWT_SECRET,
+                    { expiresIn: '1h' }
+                    );
+                    
+                return res.status(200).json({ message: 'Login realizado com sucesso', type, token });
+            }
+            }
     catch (err) {
         console.error(err);
         return res.status(500).json({ message: 'Erro interno do servidor' + err });
     }
 });
+
+
+router.post('/cadastro', async (req, res) => {
+    const { nome, email, idade, cpf, senha } = req.body;
+
+    try {
+        const saltRounds = 10;
+        const senhaHashed = await bcrypt.hash(senha, saltRounds);
+
+        const { data, error } = await supabase
+            .from("Visitantes")
+            .insert([
+                {
+                    nome: nome,
+                    email: email,
+                    idade: idade,
+                    cpf: cpf,
+                    senha: senhaHashed
+                }
+            ]);
+
+        if (error) {
+            console.error("Erro do Supabase:", error);
+            return res.status(400).json({ success: false, message: 'Erro ao cadastrar usuário' });
+        } else {
+            return res.status(200).json({ success: true, message: 'Usuário cadastrado com sucesso!', data: data });
+        }
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ success: false, message: 'Erro interno do servidor' });
+    }
+});
+
+
+
+
+
 
 export default router;

@@ -146,7 +146,7 @@ function EditItem() {
             </div>
           </div>
           <button type="submit" className="edit-button">
-            Salvar Alterações
+            Salvar 
           </button>
         </form>
             <div className='exibirimovel'>

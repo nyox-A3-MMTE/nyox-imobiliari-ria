@@ -23,4 +23,5 @@ export const optionsObjects = [
     icon: <FontAwesomeIcon icon={faArrowLeft} />,
     link: "/",
   }
+  
 ]
