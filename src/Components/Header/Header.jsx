@@ -8,7 +8,7 @@ function Header({user}){
     
     return(
         <header className="header_component">
-            <img src={logo} className="logo" />
+            <img src={logo} className="logo" alt="Nyox Imobiliária logo" />
             <a className='user' href="/login"><FontAwesomeIcon icon={faUser} size="lg" />{user}</a>
         </header>
     )
