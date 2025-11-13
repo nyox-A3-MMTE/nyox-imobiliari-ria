@@ -60,4 +60,11 @@ describe("AnuncioCard Component", () => {
     expect(mockOnButtonClick).toHaveBeenCalledTimes(1);
     expect(mockOnButtonClick).toHaveBeenCalledWith(expect.any(Object));
   });
+
+  it("deve renderizar localização sem bairro", () => {
+    const imovelSemBairro = { ...mockImovel, bairro: "" };
+    renderComponent(imovelSemBairro);
+
+    expect(screen.getByText("Localização: São Paulo - SP")).toBeInTheDocument();
+  });
 });

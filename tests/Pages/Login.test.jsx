@@ -57,13 +57,13 @@ describe("Login Page", () => {
     localStorage.clear();
   });
 
-  it("renderiza os formulários de login e cadastro", () => {
+  it("deve renderizar os formulários de login e cadastro", () => {
     renderLogin();
     expect(screen.getByText("Cadastre-se")).toBeInTheDocument();
     expect(screen.getByText("Já possui uma conta ?")).toBeInTheDocument();
   });
 
-  it("realiza login com sucesso", async () => {
+  it("deve realizar login com sucesso", async () => {
     global.fetch.mockResolvedValueOnce({
       ok: true,
       json: async () => ({
@@ -85,7 +85,7 @@ describe("Login Page", () => {
     });
   });
 
-  it("exibe erro ao falhar login", async () => {
+  it("deve exibir erro ao falhar login", async () => {
     global.fetch.mockResolvedValueOnce({
       ok: false,
       json: async () => ({ message: "Credenciais inválidas" }),
@@ -102,7 +102,7 @@ describe("Login Page", () => {
     });
   });
 
-  it("cadastra novo usuário com sucesso", async () => {
+  it("deve cadastrar novo usuário com sucesso", async () => {
     global.fetch.mockResolvedValueOnce({
       ok: true,
       json: async () => ({ message: "Cadastro OK", token: "newuser123" }),
@@ -122,7 +122,7 @@ describe("Login Page", () => {
     });
   });
 
-  it("mostra erro de rede", async () => {
+  it("deve mostrar erro de rede", async () => {
     global.fetch.mockRejectedValueOnce(new Error("Network error"));
 
     renderLogin();

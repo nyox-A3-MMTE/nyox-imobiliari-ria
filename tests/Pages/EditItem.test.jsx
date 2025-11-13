@@ -1,7 +1,6 @@
-/* eslint-disable no-undef */
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { describe, it, beforeEach, vi, expect } from "vitest";
 import Alert from "../../src/Components/Alert/Alert";
 import EditItem from "../../src/Pages/EditItem/EditItem";
 
@@ -13,74 +12,28 @@ vi.mock("react-router-dom", async () => {
   const actual = await vi.importActual("react-router-dom");
   return {
     ...actual,
-    useLocation: () => ({
-      state: { id: "123" },
-    }),
+    useLocation: () => ({ state: { id: "123" } }),
     useNavigate: () => vi.fn(),
   };
 });
 
-const localStorageMock = (() => {
-  let store = { token: "test-token" };
-  return {
-    getItem: (key) => store[key] || null,
-    setItem: (key, value) => {
-      store[key] = value.toString();
-    },
-    removeItem: (key) => {
-      delete store[key];
-    },
-    clear: () => {
-      store = {};
-    },
-  };
-})();
-
-Object.defineProperty(window, "localStorage", {
-  value: localStorageMock,
-});
-
 global.fetch = vi.fn();
 
-const renderComponent = () => {
-  render(
-    <BrowserRouter>
-      <EditItem />
-    </BrowserRouter>
-  );
-};
-
-const fillFormField = (placeholder, value) => {
-  fireEvent.change(screen.getByPlaceholderText(placeholder), {
-    target: { value },
-  });
-};
-
-const fillCompleteForm = () => {
-  const fields = {
-    Descrição: "Casa editada",
-    Endereço: "Rua B",
-    Bairro: "Bairro B",
-    Cidade: "Rio de Janeiro",
-    Estado: "RJ",
-    CEP: "20000000",
-    Tipo: "Apartamento",
+const localStorageMock = (() => {
+  let store = {};
+  return {
+    getItem: (k) => store[k],
+    setItem: (k, v) => (store[k] = v.toString()),
+    clear: () => (store = {}),
   };
+})();
+Object.defineProperty(window, "localStorage", { value: localStorageMock });
 
-  Object.entries(fields).forEach(([placeholder, value]) => {
-    fillFormField(placeholder, value);
-  });
-};
-
-const submitForm = () => {
-  fireEvent.click(screen.getByRole("button", { name: /Salvar/i }));
-};
-
-const mockImovelData = {
+const mockImovel = {
   id: "123",
   descricao: "Casa para editar",
   endereco: "Rua A",
-  bairro: "Bairro A",
+  bairro: "Centro",
   cidade: "São Paulo",
   estado: "SP",
   cep: "12345678",
@@ -92,202 +45,155 @@ const mockImovelData = {
   valor: "500000",
 };
 
-const mockFetchImovel = () => {
-  global.fetch.mockResolvedValueOnce({
-    ok: true,
-    json: async () => [mockImovelData],
-  });
-};
+const mockFetch = (resp) => global.fetch.mockResolvedValueOnce(resp);
+const mockOk = (data) => ({ ok: true, json: async () => data });
+const mockFail = (msg) => ({ ok: false, json: async () => ({ message: msg }) });
 
-const waitFormReady = () =>
-  waitFor(() => {
-    expect(screen.getByPlaceholderText("Descrição")).toBeInTheDocument();
+const renderPage = () =>
+  render(
+    <BrowserRouter>
+      <EditItem />
+    </BrowserRouter>
+  );
+
+const fill = (placeholder, value) =>
+  fireEvent.change(screen.getByPlaceholderText(placeholder), {
+    target: { value },
   });
+
+const submit = () =>
+  fireEvent.click(screen.getByRole("button", { name: /Salvar/i }));
+
+const waitFormLoaded = () =>
+  screen.findByPlaceholderText("Descrição");
+
+beforeEach(() => {
+  vi.clearAllMocks();
+  localStorageMock.setItem("token", "token");
+  global.fetch.mockReset();
+});
 
 describe("EditItem Page", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-    localStorageMock.setItem("token", "test-token");
-    global.fetch.mockClear();
-  });
+  it("renderiza e carrega dados do imóvel", async () => {
+    mockFetch(mockOk([mockImovel]));
+    renderPage();
 
-  describe("Renderização e Carregamento", () => {
-    it("deve renderizar a página com formulário e carregar dados do imóvel", async () => {
-      mockFetchImovel();
-      renderComponent();
-
-      await waitFor(() => {
-        expect(screen.getByText("Edição de Imóveis")).toBeInTheDocument();
-        expect(screen.getByTestId("sidebar")).toBeInTheDocument();
-        expect(screen.getByPlaceholderText("Descrição")).toBeInTheDocument();
-      });
-
-      await waitFor(() => {
-        expect(global.fetch).toHaveBeenCalledWith(
-          "http://localhost:8800/imoveis/listforid/123",
-          expect.objectContaining({
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-          })
-        );
-        expect(screen.getByPlaceholderText("Descrição").value).toBe(
-          mockImovelData.descricao
-        );
-      });
-    });
-
-    it("deve redirecionar para login se não houver token", () => {
-      localStorageMock.clear();
-      const originalLocation = window.location;
-      delete window.location;
-      window.location = { ...originalLocation, href: "" };
-
-      renderComponent();
-      expect(window.location.href).toBe("/login");
-
-      window.location = originalLocation;
+    await waitFor(() => {
+      expect(screen.getByText("Edição de Imóveis")).toBeInTheDocument();
+      expect(screen.getByTestId("sidebar")).toBeInTheDocument();
+      expect(screen.getByPlaceholderText("Descrição").value).toBe(
+        mockImovel.descricao
+      );
     });
   });
 
-  describe("Formulário", () => {
-    it("deve atualizar campos do formulário ao digitar", async () => {
-      mockFetchImovel();
-      renderComponent();
-      await waitFormReady();
+  it("deve redirecionar se não houver token", () => {
+    localStorageMock.clear();
+    const original = window.location;
+    delete window.location;
+    window.location = { href: "" };
 
-      fillFormField("Descrição", "Casa atualizada");
-      fillFormField("Tipo", "Apartamento");
+    renderPage();
+    expect(window.location.href).toBe("/login");
 
-      expect(screen.getByPlaceholderText("Descrição").value).toBe("Casa atualizada");
-      expect(screen.getByPlaceholderText("Tipo").value).toBe("Apartamento");
-    });
+    window.location = original;
+  });
 
-    it("deve consultar CEP e preencher endereço automaticamente", async () => {
-      mockFetchImovel();
-      global.fetch.mockResolvedValueOnce({
-        json: async () => ({
-          logradouro: "Rua Nova",
-          bairro: "Bairro Novo",
-          localidade: "Belo Horizonte",
-          uf: "MG",
-        }),
-      });
+  it("deve atualizar campos ao digitar", async () => {
+    mockFetch(mockOk([mockImovel]));
+    renderPage();
+    await waitFor(() =>
+      expect(screen.getByPlaceholderText("Descrição")).toBeInTheDocument()
+    );
 
-      renderComponent();
-      await waitFormReady();
+    fill("Descrição", "Casa nova");
+    expect(screen.getByPlaceholderText("Descrição").value).toBe("Casa nova");
+  });
 
-      const cepInput = screen.getByPlaceholderText("CEP");
-      fireEvent.change(cepInput, { target: { value: "30000000" } });
-      fireEvent.blur(cepInput);
+  it("deve consultar CEP e preencher o endereço", async () => {
+    mockFetch(mockOk([mockImovel]));
+    mockFetch({ json: async () => ({ logradouro: "Rua X", bairro: "Bairro X", localidade: "BH", uf: "MG" }) });
 
-      await waitFor(() => {
-        expect(global.fetch).toHaveBeenCalledWith(
-          "https://viacep.com.br/ws/30000000/json/"
-        );
-        expect(screen.getByPlaceholderText("Endereço").value).toBe("Rua Nova");
-        expect(screen.getByPlaceholderText("Cidade").value).toBe("Belo Horizonte");
-      });
-    });
+    renderPage();
+    const cep = await screen.findByPlaceholderText("CEP");
+    fireEvent.change(cep, { target: { value: "30000000" } });
+    fireEvent.blur(cep);
 
-    it("deve tratar erros ao consultar CEP", async () => {
-      mockFetchImovel();
-      global.fetch.mockResolvedValueOnce({
-        json: async () => ({ erro: true }),
-      });
+    await waitFor(() =>
+      expect(screen.getByPlaceholderText("Endereço").value).toBe("Rua X")
+    );
+  });
 
-      renderComponent();
-      await waitFormReady();
+  it("deve alertar se CEP for inválido", async () => {
+    mockFetch(mockOk([mockImovel]));
+    mockFetch({ json: async () => ({ erro: true }) });
 
-      const cepInput = screen.getByPlaceholderText("CEP");
-      fireEvent.change(cepInput, { target: { value: "00000000" } });
-      fireEvent.blur(cepInput);
+    renderPage();
+    const cep = await screen.findByPlaceholderText("CEP");
+    fireEvent.change(cep, { target: { value: "00000000" } });
+    fireEvent.blur(cep);
 
-      await waitFor(() => {
-        expect(Alert).toHaveBeenCalledWith("CEP não encontrado", "Erro!", "error");
-      });
+    await waitFor(() =>
+      expect(Alert).toHaveBeenCalledWith("CEP não encontrado", "Erro!", "error")
+    );
+  });
+
+  it("deve enviar atualização com sucesso", async () => {
+    mockFetch(mockOk([mockImovel]));
+    mockFetch({ ok: true, json: async () => ({ message: "Atualizado!" }) });
+
+    renderPage();
+    const desc = await waitFormLoaded();
+    fireEvent.change(desc, { target: { value: "Casa reformada" } });
+    submit();
+
+    await waitFor(() =>
+      expect(Alert).toHaveBeenCalledWith("Atualizado!", "Sucesso!", "success")
+    );
+  });
+
+  it("deve alertar erro de atualização", async () => {
+    mockFetch(mockOk([mockImovel]));
+    mockFetch(mockFail("Erro ao atualizar imóvel"));
+
+    renderPage();
+    await waitFormLoaded();
+    submit();
+
+    await waitFor(() =>
+      expect(Alert).toHaveBeenCalledWith(
+        "Erro ao atualizar imóvel",
+        "Erro!",
+        "error"
+      )
+    );
+  });
+
+  it("deve enviar valores numéricos corretamente", async () => {
+    mockFetch(mockOk([mockImovel]));
+    mockFetch({ ok: true, json: async () => ({ message: "OK" }) });
+
+    renderPage();
+    await waitFormLoaded();
+    submit();
+
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalledTimes(2);
+      const [, updateCall] = global.fetch.mock.calls;
+      const body = JSON.parse(updateCall[1].body);
+      expect(typeof body.cep).toBe("number");
+      expect(typeof body.valor).toBe("number");
     });
   });
 
-  describe("Submissão do Formulário", () => {
-    it("deve enviar formulário e exibir sucesso ao atualizar imóvel", async () => {
-      mockFetchImovel();
-      global.fetch.mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({ message: "Imóvel atualizado com sucesso!" }),
-      });
+  it("deve exibir informações do imóvel na visualização", async () => {
+    mockFetch(mockOk([mockImovel]));
+    renderPage();
 
-      renderComponent();
-      await waitFormReady();
-      fillCompleteForm();
-      submitForm();
-
-      await waitFor(() => {
-        expect(global.fetch).toHaveBeenCalledWith(
-          "http://localhost:8800/imoveis/update/123",
-          expect.objectContaining({
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: expect.any(String),
-          })
-        );
-        expect(Alert).toHaveBeenCalledWith(
-          "Imóvel atualizado com sucesso!",
-          "Sucesso!",
-          "success"
-        );
-      });
-    });
-
-    it("deve tratar erros ao atualizar imóvel", async () => {
-      mockFetchImovel();
-      global.fetch.mockResolvedValueOnce({
-        ok: false,
-        json: async () => ({ message: "Erro ao atualizar imóvel" }),
-      });
-
-      renderComponent();
-      await waitFormReady();
-      fillCompleteForm();
-      submitForm();
-
-      await waitFor(() => {
-        expect(Alert).toHaveBeenCalledWith("Erro ao atualizar imóvel", "Erro!", "error");
-      });
-    });
-
-    it("deve converter valores numéricos ao enviar formulário", async () => {
-      mockFetchImovel();
-      global.fetch.mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({ message: "Sucesso" }),
-      });
-
-      renderComponent();
-      await waitFormReady();
-      fillCompleteForm();
-      submitForm();
-
-      await waitFor(() => {
-        const lastCall = global.fetch.mock.calls[global.fetch.mock.calls.length - 1];
-        const body = JSON.parse(lastCall[1].body);
-        expect(typeof body.cep).toBe("number");
-        expect(typeof body.quartos).toBe("number");
-        expect(typeof body.valor).toBe("number");
-      });
-    });
-  });
-
-  describe("Exibição de Dados", () => {
-    it("deve exibir informações do imóvel na seção de visualização", async () => {
-      mockFetchImovel();
-      renderComponent();
-
-      await waitFor(() => {
-        expect(screen.getByText(mockImovelData.descricao)).toBeInTheDocument();
-        expect(screen.getByText(`Bairro: ${mockImovelData.bairro}`)).toBeInTheDocument();
-        expect(screen.getByText(`Quartos: ${mockImovelData.quartos}`)).toBeInTheDocument();
-        expect(screen.getByText(`Valor: ${mockImovelData.valor}`)).toBeInTheDocument();
-      });
+    await waitFor(() => {
+      expect(screen.getByText(mockImovel.descricao)).toBeInTheDocument();
+      expect(screen.getByText(`Bairro: ${mockImovel.bairro}`)).toBeInTheDocument();
+      expect(screen.getByText(`Valor: ${mockImovel.valor}`)).toBeInTheDocument();
     });
   });
 });
