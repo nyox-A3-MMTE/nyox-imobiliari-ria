@@ -1,7 +1,7 @@
 import supabase from '../Connection/Supabase.js';
 
 async function uploadFile(file) {
-    const bucketName = process.env.STORAGE_NAME; // garante que seja o mesmo
+    const bucketName = process.env.STORAGE_NAME;
     const uniqueName = `imagens/${Date.now()}_${file.originalname}`;
 
     const { data, error } = await supabase
