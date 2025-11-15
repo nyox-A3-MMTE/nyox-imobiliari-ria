@@ -92,6 +92,7 @@ export default function MapView({imovel}) {
       center={coord}
       zoom={15}
       scrollWheelZoom={true}
+      style={{ height: "400px", width: "100%" }}
     >
       <MoveMap coord={coord}/>
 
