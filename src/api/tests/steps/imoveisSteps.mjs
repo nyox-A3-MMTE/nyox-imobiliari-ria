@@ -1,6 +1,7 @@
 import { Given, When, Then, AfterAll } from "@cucumber/cucumber";
 import { expect } from "chai";
 import request from "supertest";
+import nock from "nock";
 import { serverInstance } from "./serverInstance.mjs";
 import supabase from "../../src/Connection/Supabase.js";
 
@@ -13,6 +14,17 @@ AfterAll(async function () {
     const idsToDelete = testImoveis.map(imovel => imovel.id);
     await supabase.from("Imoveis").delete().in("id", idsToDelete);
   }
+  nock.cleanAll();
+});
+
+Given("que o serviço de geocodificação está funcionando", function () {
+  nock('https://us1.locationiq.com')
+    .get('/v1/search')
+    .query(true)
+    .reply(200, [{
+      lat: "-23.550520",
+      lon: "-46.633308"
+    }]);
 });
 
 Given("que existe um imóvel base no banco de dados com os seguintes dados:", async function (dataTable) {
@@ -118,4 +130,9 @@ Then("a resposta da atualização deve conter o \"valor\" de {string}", function
 Then("o campo {string} do imóvel na resposta deve ser {string}", function (field, value) {
     const expectedValue = value === "true";
     expect(this.response.body[field]).to.equal(expectedValue);
+});
+
+Then('a resposta deve conter as coordenadas {string} e {string}', function (lat, lon) {
+    expect(this.response.body).to.have.property(lat);
+    expect(this.response.body).to.have.property(lon);
 });

@@ -1,18 +1,15 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { describe, it, beforeEach, vi, expect } from "vitest";
 import jwtDecode from "jwt-decode";
 import Main from "../../src/Pages/Main/Main";
 import Alert from "../../src/Components/Alert/Alert";
+import { BrowserRouter } from "react-router-dom";
 
 vi.mock("../../src/Components/Alert/Alert");
 vi.mock("jwt-decode", () => ({ default: vi.fn() }));
 
 vi.mock("../../src/Components/AnuncioCard/AnuncioCard", () => ({
-  default: ({ onButtonClick }) => (
-    <button data-testid="ver-detalhes" onClick={onButtonClick}>
-      Ver detalhes
-    </button>
-  ),
+  default: ({ imovel }) => <div data-testid="anuncio-card">{imovel.descricao}</div>,
 }));
 
 vi.mock("../../src/Components/Header/Header", () => ({
@@ -33,19 +30,6 @@ const localStorageMock = (() => {
 })();
 Object.defineProperty(window, "localStorage", { value: localStorageMock });
 
-const mockImovel = {
-  descricao: "Imovel 1",
-  bairro: "Centro",
-  cidade: "São Paulo",
-  estado: "SP",
-  tipo: "Apartamento",
-  quartos: 2,
-  banheiros: 1,
-  vagas_garagem: 1,
-  area_total: 60,
-  valor: "R$ 300.000",
-};
-
 const mockFetch = (data = []) => {
   global.fetch.mockResolvedValueOnce({
     ok: true,
@@ -53,7 +37,11 @@ const mockFetch = (data = []) => {
   });
 };
 
-const renderMain = () => render(<Main />);
+const renderMain = () => render(
+  <BrowserRouter>
+    <Main />
+  </BrowserRouter>
+);
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -62,14 +50,18 @@ beforeEach(() => {
 });
 
 describe("Main Page", () => {
-  it("deve carregar imóveis e exibir informações", async () => {
-    mockFetch([mockImovel]);
+  it("deve carregar e renderizar uma lista de imóveis", async () => {
+    const mockImoveis = [
+      { id: 1, descricao: "Imovel 1" },
+      { id: 2, descricao: "Imovel 2" },
+    ];
+    mockFetch(mockImoveis);
     renderMain();
 
-    await waitFor(() => {
-      expect(screen.getByText(mockImovel.descricao)).toBeInTheDocument();
-    });
-    expect(screen.getByText("Bairro: Centro.")).toBeInTheDocument();
+    const cards = await screen.findAllByTestId("anuncio-card");
+    expect(cards).toHaveLength(2);
+    expect(screen.getByText("Imovel 1")).toBeInTheDocument();
+    expect(screen.getByText("Imovel 2")).toBeInTheDocument();
   });
 
   it("deve exibir 'Sign In/Up' quando não há token", async () => {
@@ -117,20 +109,5 @@ describe("Main Page", () => {
       expect(localStorageMock.removeItem).toHaveBeenCalledWith("token");
       expect(screen.getByTestId("header-user").textContent).toBe("Sign In/Up");
     });
-  });
-
-  it("deve expandir e recolher detalhes do imóvel", async () => {
-    mockFetch([mockImovel]);
-    const { container } = renderMain();
-
-    await waitFor(() => expect(document.getElementById("imovelhome-0")).not.toBeNull());
-    const card = document.getElementById("imovelhome-0");
-    card.style.width = "500px";
-
-    fireEvent.click(screen.getByTestId("ver-detalhes"));
-    expect(card.style.width).toBe("980px");
-
-    fireEvent.click(container.querySelector(".mostrar-menos"));
-    expect(card.style.width).toBe("500px");
   });
 });

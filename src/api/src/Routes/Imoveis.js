@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+import path from 'path';
+dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 import { Router } from "express";
 import multer from "multer";
 import supabase from '../Connection/Supabase.js';
@@ -673,6 +676,90 @@ router.put('/update/:id', async (req, res) => {
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Erro interno do servidor' });
+  }
+});
+
+/**
+ * @swagger
+ * /imoveis/coords/{q}:
+ *   get:
+ *     summary: Retorna latitude e longitude para um endereço (usa LocationIQ)
+ *     tags: [Imóveis]
+ *     parameters:
+ *       - in: path
+ *         name: q
+ *         required: true
+ *         description: 'Endereço a ser geocodificado (ex: "Rua X, Cidade, Estado")'
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Coordenadas encontradas com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 lat:
+ *                   type: string
+ *                   example: "-23.550520"
+ *                 lon:
+ *                   type: string
+ *                   example: "-46.633308"
+ *       400:
+ *         description: Requisição inválida (endereço ausente ou chave de API não configurada)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Endereço inválido
+ *       404:
+ *         description: Coordenadas não encontradas para o endereço informado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Não foi possível adquirir localização
+ *       500:
+ *         description: Erro interno do servidor
+ */
+router.get('/coords/:q', async(req, res) =>{
+  const {q} = req.params;
+  const key = process.env.LOCATIONIQ_API_KEY;
+
+  if (!q || !q.trim()) {
+    return res.status(400).json({ message: "Endereço inválido" });
+  }
+
+  if (!key) {
+    console.error("LocationIQ API key não configurada (env LOCATIONIQ_API_KEY)");
+    return res.status(400).json({ message: "Chave de API não configurada" });
+  }
+
+  try{
+    const response = await fetch(
+      `https://us1.locationiq.com/v1/search?key=${key}&q=${encodeURIComponent(q)}&format=json&limit=1`
+    );
+
+    const data = await response.json().catch(()=>null);
+
+    if (response.ok && Array.isArray(data) && data.length > 0 && data[0].lat && data[0].lon) {
+      return res.status(200).json({lat: data[0].lat, lon: data[0].lon})
+    } else if (response.ok) {
+      return res.status(404).json({message: "Não foi possível adquirir localização para o endereço informado"})
+    } else {
+      console.error("Erro LocationIQ:", data || response.statusText);
+      return res.status(502).json({message: "Erro ao consultar serviço de geocodificação"})
+    }
+  }catch(err){
+    console.error("Error ao buscar endereço:", err)
+    return res.status(500).json({message: "Erro interno servidor"})
   }
 });
 
