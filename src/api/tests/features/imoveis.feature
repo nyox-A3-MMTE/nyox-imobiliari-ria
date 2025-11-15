@@ -51,3 +51,9 @@ Funcionalidade: Gerenciamento de Imóveis
     Quando eu envio uma requisição DELETE para o endpoint de deleção permanente do imóvel "Imóvel a ser deletado"
     Então a resposta deve ter o status 200
     E a resposta deve conter a mensagem "Imóvel removido com sucesso"
+
+  Cenário: Obter coordenadas para um endereço válido
+    Dado que o serviço de geocodificação está funcionando
+    Quando eu envio uma requisição GET para "/imoveis/coords/Rua dos Testes, 123, Test City, TS"
+    Então a resposta deve ter o status 200
+    E a resposta deve conter as coordenadas "lat" e "lon"
