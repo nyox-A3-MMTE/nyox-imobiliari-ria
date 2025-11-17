@@ -152,6 +152,10 @@ router.post('/cadastro', async (req, res) => {
 
         if (error) {
             console.error("Erro do Supabase:", error);
+            if(error.code == "23505"){
+                return res.status(409).json({success: false, message: 'Você já tem cadastro na plataforma'});
+            }
+
             return res.status(400).json({ success: false, message: 'Erro ao cadastrar usuário' });
         } else {
             return res.status(200).json({ success: true, message: 'Usuário cadastrado com sucesso!', data: data });

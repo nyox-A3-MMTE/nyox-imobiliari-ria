@@ -1,12 +1,14 @@
 import { FaBath, FaBed, FaCar, FaRulerCombined } from 'react-icons/fa';
 import Carrossel  from '../Carrossel/Carrossel';
 import './AnuncioCard.css';
+import { useNavigate } from 'react-router-dom';
 
 
 const AnuncioCard = ({
   imovel,
-  onButtonClick,
 }) => {
+    const navigate = useNavigate();
+
     return (
     <div className="anuncio-card">
       <div className="anuncio-card__conteudo">
@@ -27,7 +29,7 @@ const AnuncioCard = ({
           Localização: {imovel.bairro ? `${imovel.bairro}, ` : ''}{imovel.cidade} - {imovel.estado}
         </p>
 
-        <button className="anuncio-card__button" onClick={onButtonClick}>
+        <button className="anuncio-card__button" onClick={() => navigate(`/AnuncioPage/${imovel.id}`)}>
           Ver detalhes
         </button>
       </div>
