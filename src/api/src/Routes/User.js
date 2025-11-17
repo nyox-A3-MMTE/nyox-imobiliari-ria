@@ -106,6 +106,7 @@ router.post('/login', async (req, res) => {
                     JWT_SECRET,
                     { expiresIn: '1h' }
                     );
+                    console.log(token)
                     return res.status(200).json({ success: true, message: 'Usuário logado com sucesso!', type, token });
                 }
             }

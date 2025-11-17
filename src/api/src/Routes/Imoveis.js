@@ -643,7 +643,7 @@ router.delete('/deletePerm/:id', async (req, res) => {
 router.put('/update/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { descricao, cep, endereco, bairro, cidade, estado, tipo, quartos, banheiros, vagasGaragem, areaTotal, valor } = req.body;
+    const { descricao, cep, endereco, bairro, cidade, estado, tipo, quartos, banheiros, vagasGaragem, areaTotal, valor, modalidade } = req.body;
 
     const { data, error } = await supabase
       .from('Imoveis')
@@ -659,7 +659,8 @@ router.put('/update/:id', async (req, res) => {
         banheiros,
         vagas_garagem: vagasGaragem,
         area_total: areaTotal,
-        valor
+        valor,
+        modalidade
       })
       .eq('id', id)
       .select();
@@ -675,5 +676,138 @@ router.put('/update/:id', async (req, res) => {
     return res.status(500).json({ message: 'Erro interno do servidor' });
   }
 });
+
+router.get('/venda', async (req, res) => {
+  try {
+    const { localizacao, tipoImovel, precoMin, precoMax } = req.query;
+    // Construir a query base
+    let query = supabase
+    .from('Imoveis')
+    .select('*')
+    .eq("Ativo", true)
+    // .eq("tipo_anuncio", "Comprar")
+
+    const locationFilters = [];
+    locationFilters.push(`modalidade.eq.VENDA`)
+    locationFilters.push(`modalidade.eq.VENDA|ALUGUEL`)
+
+    console.log(tipoImovel)
+    console.log(typeof(tipoImovel))
+    if (tipoImovel && tipoImovel !== "Todos"){
+
+      query = query.eq('tipo', tipoImovel)
+    }
+
+    if ((precoMin && precoMax) && (parseFloat(precoMin) !== 0 && parseFloat(precoMax) !== 0)){
+      query = query.gte('valor', parseFloat(precoMin))
+      query = query.lte('valor', parseFloat(precoMax))
+    }
+    
+    if (localizacao && localizacao !== "") {
+      locationFilters.push(`cidade.eq.${localizacao}`);
+      locationFilters.push(`bairro.eq.${localizacao}`)
+      locationFilters.push(`estado.ilike.${localizacao}`)
+    }
+
+    
+
+    // Aplicar os filtros OR de localização
+    if (locationFilters.length > 0) {
+      query = query.or(locationFilters.join(','));
+    }
+
+    // Executar a query
+    const { data, error } = await query;
+
+    if (error) {
+      console.error('Erro ao consultar imóveis:', error);
+      return res.status(500).json({ 
+        error: 'Erro ao consultar imóveis no banco de dados',
+        details: error.message 
+      });
+    }
+
+    // Retornar os resultados
+    return res.status(200).json({
+      success: true,
+      count: data.length,
+      imoveis: data
+    });
+
+  } catch (error) {
+    console.error('Erro no endpoint /vendas:', error);
+    return res.status(500).json({ 
+      error: 'Erro interno do servidor',
+      details: error.message 
+    });
+  }
+});
+
+router.get('/aluguel', async (req, res) => {
+  try {
+    const { localizacao, tipoImovel, precoMin, precoMax } = req.query;
+    // Construir a query base
+    let query = supabase
+    .from('Imoveis')
+    .select('*')
+    .eq("Ativo", true)
+    // .eq("tipo_anuncio", "Comprar")
+
+    const locationFilters = [];
+    locationFilters.push(`modalidade.eq.ALUGUEL`)
+    locationFilters.push(`modalidade.eq.VENDA|ALUGUEL`)
+
+    console.log(tipoImovel)
+    console.log(typeof(tipoImovel))
+    if (tipoImovel && tipoImovel !== "Todos"){
+
+      query = query.eq('tipo', tipoImovel)
+    }
+
+    if ((precoMin && precoMax) && (parseFloat(precoMin) !== 0 && parseFloat(precoMax) !== 0)){
+      query = query.gte('valor', parseFloat(precoMin))
+      query = query.lte('valor', parseFloat(precoMax))
+    }
+    
+    if (localizacao && localizacao !== "") {
+      locationFilters.push(`cidade.eq.${localizacao}`);
+      locationFilters.push(`bairro.eq.${localizacao}`)
+      locationFilters.push(`estado.ilike.${localizacao}`)
+    }
+
+    
+
+    // Aplicar os filtros OR de localização
+    if (locationFilters.length > 0) {
+      query = query.or(locationFilters.join(','));
+    }
+
+    // Executar a query
+    const { data, error } = await query;
+
+    if (error) {
+      console.error('Erro ao consultar imóveis:', error);
+      return res.status(500).json({ 
+        error: 'Erro ao consultar imóveis no banco de dados',
+        details: error.message 
+      });
+    }
+
+    // Retornar os resultados
+    return res.status(200).json({
+      success: true,
+      count: data.length,
+      imoveis: data
+    });
+
+  } catch (error) {
+    console.error('Erro no endpoint /ALUGUEL:', error);
+    return res.status(500).json({ 
+      error: 'Erro interno do servidor',
+      details: error.message 
+    });
+  }
+});
+
 
 export default router;

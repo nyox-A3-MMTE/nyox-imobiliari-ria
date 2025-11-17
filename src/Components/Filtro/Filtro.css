@@ -1,0 +1,152 @@
+.contentFilter{
+    background-color: #485e81;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 60px;
+    border-radius: 10px;
+}
+
+.priceContainer{
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    margin: auto;
+}
+.numericInputContainer{
+    display: flex;
+    justify-content: center;
+}
+.buttonContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+#precoMin, #precoMax{
+    width: 50%;
+    padding: 15px;
+    border: none;
+}
+#precoMin{
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+}
+#precoMax{
+    border-left: 1px solid black;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+
+.inputs{
+    border: none;
+    width: 100%;
+}
+.localizacaoContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background-color: blue;
+}
+
+#inputLocalizacao{
+    padding-right: 50px;
+    padding-left: 10px;
+    width: 100%;
+    height: 100%;
+}
+
+
+
+.buttonFilter{
+    z-index: 1000;
+    background-coloR: #ffffff;
+    flex: 1;
+    border: none;
+    cursor: pointer;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+.priceLabelContainer{
+    display: flex;
+    margin-right: auto;
+}
+#alugar, #comprar{
+    padding: 10px 30px;
+    cursor: pointer;
+    border: none;
+    margin-bottom: 1%;
+}
+
+#alugar, #tipoImovel{
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+}
+
+#comprar{
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    border-left: 1px solid black;
+}
+
+#tipoImovel{
+    padding: 15px;
+}
+
+select{
+    padding: 5px 20px;
+    cursor: pointer;
+    border: none;
+}
+
+
+label{
+    width:fit-content;
+    margin: 5px;
+    font-size: 12px;
+    font-weight: 500;
+
+
+
+}
+#suggestionsList {
+  position: absolute;
+  top: calc(100%); /* aparece logo abaixo do input, sem encostar */
+  left: 0;
+  width: 100%;
+  background-color: white;
+  border-end-end-radius: 10px;
+  border-end-start-radius: 10px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 180px;
+  overflow-y: auto;
+  z-index: 1000; /* fica na frente */
+
+}
+.opcaoContainer{
+    padding: 5px;
+    cursor: pointer;
+    border-bottom: 1px solid #ccc;
+}
+.containerInnerFilter{
+    width: fit-content;
+    
+    margin-left: auto;
+    margin-right: auto;
+
+}
+.containerInputs{
+    display: flex;
+    flex-direction: column;
+}
+
+.containerInputsContents{
+    display: flex;
+    justify-content: start;
+
+}

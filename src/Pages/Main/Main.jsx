@@ -6,6 +6,7 @@ import AnuncioCard from '../../Components/AnuncioCard/AnuncioCard';
 import Header from '../../Components/Header/Header';
 import { useEffect, useState } from 'react';
 import jwt_decode from 'jwt-decode';
+import Filtro from '../../Components/Filtro/Filtro';
 
 function Main() {
   const [imoveis, setImoveis] = useState([]);
@@ -91,6 +92,7 @@ function Main() {
   return (
     <div className="Main">
       <Header user= {user} />
+      <Filtro></Filtro>
       <div className="imoveis">
         {imoveis.map((imovel, index) => (
           <div
