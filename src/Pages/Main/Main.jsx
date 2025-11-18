@@ -6,6 +6,7 @@ import AnuncioCard from '../../Components/AnuncioCard/AnuncioCard';
 import Header from '../../Components/Header/Header';
 import { useEffect, useState } from 'react';
 import jwt_decode from 'jwt-decode';
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Main() {
   const [imoveis, setImoveis] = useState([]);
@@ -42,7 +43,7 @@ function Main() {
 
   async function listaImoveis() {
     try {
-      const response = await fetch('http://localhost:8800/imoveis/list', {
+      const response = await fetch(`${API_URL}/imoveis/list`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });

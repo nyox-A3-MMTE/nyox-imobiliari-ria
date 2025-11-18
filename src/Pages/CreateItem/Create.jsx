@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Alert from '../../Components/Alert/Alert';
 import Sidebar from '../../Components/Sidebar/Sidebar';
 import './Create.css';
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Create() {
 
@@ -100,7 +101,7 @@ function Create() {
     formData.imagens.forEach(file => payload.append("imagens", file));
 
     try {
-      const res = await fetch('http://localhost:8800/imoveis/register', {
+      const res = await fetch(`${API_URL}/imoveis/register`, {
         method: 'POST',
         body: payload,
       });

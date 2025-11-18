@@ -1,6 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import { describe, it, beforeEach, vi, expect } from "vitest";
 import MapView from "../../src/Components/MapView/MapView";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const mockSetView = vi.fn();
 const mockUseMap = vi.fn(() => ({
@@ -62,7 +63,7 @@ describe("MapView Component", () => {
 
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledTimes(1);
-      const expectedUrl = `http://localhost:8800/imoveis/coords/123%20Main%20St%2C%20Anytown%2C%20CA`;
+      const expectedUrl = `${API_URL}/imoveis/coords/123%20Main%20St%2C%20Anytown%2C%20CA`;
       expect(global.fetch).toHaveBeenCalledWith(expectedUrl);
     });
 

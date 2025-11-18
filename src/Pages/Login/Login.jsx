@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Alert from '../../Components/Alert/Alert';
 import './Login.css';
-
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Login() {
   const navigate = useNavigate();
@@ -33,7 +33,7 @@ function Login() {
   const handleSubmitLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:8800/users/login', {
+      const response = await fetch(`${API_URL}/users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -79,7 +79,7 @@ function Login() {
 
 
     try {
-      const response = await fetch('http://localhost:8800/users/cadastro', {
+      const response = await fetch(`${API_URL}/users/cadastro`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
