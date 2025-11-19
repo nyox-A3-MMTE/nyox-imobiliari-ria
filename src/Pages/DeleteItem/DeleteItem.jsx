@@ -19,7 +19,7 @@ function DeleteItem() {
 
   async function listaImoveis() {
     try {
-      const response = await fetch('${API_URL}/imoveis/listInatives', {
+      const response = await fetch(`${API_URL}/imoveis/listInatives`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
