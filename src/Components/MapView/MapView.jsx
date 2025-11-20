@@ -2,7 +2,7 @@ import { MapContainer, TileLayer, Circle, useMap} from "react-leaflet";
 import L from "leaflet";
 import { useEffect, useState } from "react";
 
-const API_URL = import.meta.env.API_URL;
+const API_URL = import.meta.env.VITE_API_URL;
 import "leaflet/dist/leaflet.css";
 
 const defaultIcon = L.icon({
