@@ -7,7 +7,7 @@ const app = express()
 
 app.use(express.json())
 app.use(cors({
-  origin: "http://localhost:5173" 
+  origin: process.env.FRONTEND_URL || "http://localhost:5173",
 }));
 
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
@@ -20,7 +20,7 @@ app.get("/",(req,res)=>{
 })
 
 if (process.env.NODE_ENV !== 'test') {
-  app.listen(8800);
+  app.listen(process.env.PORT ||8800);
 }
 
 export default app;

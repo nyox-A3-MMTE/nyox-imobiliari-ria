@@ -7,7 +7,7 @@ import AnuncioCard from '../../Components/AnuncioCard/AnuncioCard';
 import Sidebar from '../../Components/Sidebar/Sidebar';
 import './PainelAdm.css';
 import jwt_decode from "jwt-decode";
-
+const API_URL = import.meta.env.VITE_API_URL;
 
 
 
@@ -55,7 +55,7 @@ function PainelAdm() {
  
   async function listaImoveis() {
     try {
-      const response = await fetch('http://localhost:8800/imoveis/list', {
+      const response = await fetch(`${API_URL}/imoveis/list`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -78,7 +78,7 @@ function PainelAdm() {
 
   async function handleDelete(id) {
     try {
-      const response = await fetch(`http://localhost:8800/imoveis/delete/${id}`, {
+      const response = await fetch(`${API_URL}/imoveis/delete/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

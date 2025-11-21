@@ -5,6 +5,7 @@ import Alert from '../../Components/Alert/Alert';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit,faUndo } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from 'react-router-dom';
+const API_URL = import.meta.env.VITE_API_URL;
 
 function DeleteItem() {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ function DeleteItem() {
 
   async function listaImoveis() {
     try {
-      const response = await fetch('http://localhost:8800/imoveis/listInatives', {
+      const response = await fetch(`${API_URL}/imoveis/listInatives`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -37,7 +38,7 @@ function DeleteItem() {
 
     async function handleReactivate(id) {
     try {
-      const response = await fetch(`http://localhost:8800/imoveis/reactivate/${id}`, {
+      const response = await fetch(`${API_URL}/imoveis/reactivate/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -61,7 +62,7 @@ function DeleteItem() {
 
   async function handleDeletePerm(id) {
     try {
-      const response = await fetch(`http://localhost:8800/imoveis/deletePerm/${id}`, {
+      const response = await fetch(`${API_URL}/imoveis/deletePerm/${id}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',

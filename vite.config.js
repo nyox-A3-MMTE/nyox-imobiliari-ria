@@ -10,7 +10,7 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './src/setupTests.js',
     coverage:{
-      priver: 'v8',
+      provider: 'v8',
       reporter:['text', 'html']
     }
   },

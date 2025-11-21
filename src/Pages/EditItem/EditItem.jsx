@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Alert from '../../Components/Alert/Alert';
 import Sidebar from '../../Components/Sidebar/Sidebar';
 import { useLocation, useNavigate } from 'react-router-dom';
+const API_URL = import.meta.env.VITE_API_URL;
 
 function EditItem() {
   const location = useLocation();
@@ -33,7 +34,7 @@ function EditItem() {
 
   async function listaImovel() {
     try {
-      const response = await fetch(`http://localhost:8800/imoveis/listforid/${id.id}`, {
+      const response = await fetch(`${API_URL}/imoveis/listforid/${id.id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -42,9 +43,8 @@ function EditItem() {
 
       if (response.ok) {
         const data = await response.json();
-        // Aqui você deve preencher o formData com o retorno
         if (data && data.length > 0) {
-          setFormData(data[0]); // supondo que o backend retorne um array com 1 item
+          setFormData(data[0]); 
         }
       } else {
         console.error('Erro na resposta do servidor');
@@ -102,7 +102,7 @@ function EditItem() {
     };
 
     try {
-      const res = await fetch(`http://localhost:8800/imoveis/update/${id.id}`, {
+      const res = await fetch(`${API_URL}/imoveis/update/${id.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

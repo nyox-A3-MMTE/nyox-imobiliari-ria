@@ -3,6 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 import { describe, it, beforeEach, vi, expect } from "vitest";
 import Alert from "../../src/Components/Alert/Alert";
 import Create from "../../src/Pages/CreateItem/Create";
+const API_URL = import.meta.env.VITE_API_URL;
 
 vi.mock("../../src/Components/Alert/Alert");
 vi.mock("../../src/Components/Sidebar/Sidebar", () => ({
@@ -182,7 +183,7 @@ describe("Create Page", () => {
         "success"
       );
       expect(global.fetch).toHaveBeenCalledWith(
-        "http://localhost:8800/imoveis/register",
+        `${API_URL}/imoveis/register`,
         expect.objectContaining({ method: "POST", body: expect.any(FormData) })
       );
     });

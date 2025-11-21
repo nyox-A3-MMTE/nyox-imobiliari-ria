@@ -2,7 +2,7 @@ import { MapContainer, TileLayer, Circle, useMap} from "react-leaflet";
 import L from "leaflet";
 import { useEffect, useState } from "react";
 
-
+const API_URL = import.meta.env.API_URL;
 import "leaflet/dist/leaflet.css";
 
 const defaultIcon = L.icon({
@@ -49,7 +49,7 @@ export default function MapView({imovel}) {
 
       try {
         const res = await fetch(
-          `http://localhost:8800/imoveis/coords/${encodeURIComponent(enderecoCompleto)}`
+          `${API_URL}/imoveis/coords/${encodeURIComponent(enderecoCompleto)}`
         );
 
         if (!res.ok) {

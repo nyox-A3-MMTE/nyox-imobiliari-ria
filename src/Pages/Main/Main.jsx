@@ -43,7 +43,7 @@ function Main() {
 
   async function listaImoveis() {
     try {
-      const response = await fetch('http://localhost:8800/imoveis/list', {
+      const response = await fetch(`${API_URL}/imoveis/list`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });

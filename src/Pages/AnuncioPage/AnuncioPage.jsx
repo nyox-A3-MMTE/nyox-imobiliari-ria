@@ -7,7 +7,7 @@ import "./AnuncioPage.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Alert from "../../Components/Alert/Alert";
-
+const API_URL = import.meta.env.VITE_API_URL;
 
 function formatPrice(value) {
   return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(value);
@@ -22,7 +22,7 @@ function AnuncioPage() {
   useEffect(() => {
     const getImovel = async () => {
       try {
-        const res = await fetch(`http://localhost:8800/imoveis/listforid/${parseInt(id)}`, {
+        const res = await fetch(`${API_URL}/imoveis/listforid/${parseInt(id)}`, {
           method: 'GET',
           headers: {
           'Content-Type': 'application/json',
