@@ -19,5 +19,8 @@ app.get("/",(req,res)=>{
     res.json("Rota raiz")
 })
 
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(8800);
+}
 
-app.listen(8800)
+export default app;

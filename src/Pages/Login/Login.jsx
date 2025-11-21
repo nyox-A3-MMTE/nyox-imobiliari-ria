@@ -6,18 +6,21 @@ import './Login.css';
 
 function Login() {
   const navigate = useNavigate();
-  const [form, setForm] = useState({
+  const loginEmptyForm = {
     email: '',
     senha: ''
-  });
+  };
+  const cadastroEmptyForm = {
+    nome:'',
+    email:'',
+    idade:'',
+    cpf:'',
+    senha:''
+  };
+  const [form, setForm] = useState(loginEmptyForm);
 
-  const[formregister,setformregister]=useState({
-        nome:'',
-        email:'',
-        idade:'',
-        cpf:'',
-        senha:''
-    });
+  const[formregister,setformregister]=useState(cadastroEmptyForm);
+
   
   const handleChangeLogin = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -57,10 +60,16 @@ function Login() {
        setForm({ email: '', senha: '' });
 
       } else {
-      await  Alert(data.message,'Erro!','error');
+        await  Alert(data.message,'Erro!','error');
+
+        setformregister(cadastroEmptyForm);
+        setForm(loginEmptyForm);
       }
       }catch (error) {
-       await Alert('Erro ao conectar ao servidor:','Erro!','error');
+        await Alert('Erro ao conectar ao servidor:','Erro!','error');
+
+        setformregister(cadastroEmptyForm);
+        setForm(loginEmptyForm);
       }
        
     };
@@ -82,20 +91,21 @@ function Login() {
 
       if(response.ok){
         await Alert(data.message,'Sucesso!','success')
-          setformregister({
-                  nome:'',
-                  email:'',
-                  idade:'',
-                  cpf:'',
-                  senha:''
-                });
-                navigate('/login');
+
+        setformregister(cadastroEmptyForm);
+
+        navigate('/login');
       } else {
-       await Alert(data.message,'Erro!','error')
+        await Alert(data.message,'Erro!','error');
+
+        setformregister(cadastroEmptyForm);
+        setForm(loginEmptyForm);
       }
     } catch (error) {
       await Alert('Erro ao conectar ao servidor:','Erro!','error')
       
+      setformregister(cadastroEmptyForm);
+      setForm(loginEmptyForm);
     }
     }
 

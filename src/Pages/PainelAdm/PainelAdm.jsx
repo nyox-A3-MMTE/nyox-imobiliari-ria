@@ -118,7 +118,7 @@ function PainelAdm() {
 
               <h2>{imovel.descricao}</h2>
               
-              <AnuncioCard imovel={imovel} onButtonClick={() => {}}/>
+              <AnuncioCard imovel={imovel}/>
 
             </div>
             <div className='containerBotoes'>

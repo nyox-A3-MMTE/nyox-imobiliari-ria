@@ -5,11 +5,15 @@
     
 }
 
+.filtroContainer{
+    width: 100%;
+}
+
 .imoveis{
      display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 6rem;
+    gap: 3rem;
     padding: 3rem;
 }
 

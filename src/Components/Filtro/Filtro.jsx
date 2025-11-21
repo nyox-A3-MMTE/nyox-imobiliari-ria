@@ -4,10 +4,9 @@ import { NumericFormat } from 'react-number-format';
 import { FaSearch } from 'react-icons/fa';
 import useDebounce from '../Debounce/useDebounce.jsx'
 
-function Filtro() {
-  
+function Filtro({ onFiltrar }) {
+  const [imoveisOriginais, setImoveisOriginais] = useState([]);
   const [opcaoSelecionada, setOpcaoSelecionada] = useState("Comprar");
-  const [imoveis, setImoveis] = useState([]);
   const [precoMin, setPrecoMin] = useState(0);
   const [precoMax, setPrecoMax] = useState(0);
   const [tipoSelecionado, setTipoSelecionado] = useState("Todos");
@@ -22,20 +21,25 @@ function Filtro() {
 
   // feito pra nao ter que ficar renderizando toda hora
 const cidadesUnicas = useMemo(() => {
-  return [...new Set(imoveis.map(imovel => imovel.cidade))];
-}, [imoveis]); 
+  // Verifica se imoveis é um array. Se não for, usa um array vazio.
+  const imoveisArray = Array.isArray(imoveisOriginais) ? imoveisOriginais : [];
+  return [...new Set(imoveisArray.map(imovel => imovel.cidade))];
+}, [imoveisOriginais]); 
 
+// O mesmo para bairrosUnicos:
 const bairrosUnicos = useMemo(() => {
-  return [...new Set(imoveis.map(imovel => imovel.bairro))];
-}, [imoveis]);
+  const imoveisArray = Array.isArray(imoveisOriginais) ? imoveisOriginais : [];
+  return [...new Set(imoveisArray.map(imovel => imovel.bairro))];
+}, [imoveisOriginais]);
 
+// O mesmo para tiposImoveisUnicos:
 const tiposImoveisUnicos = useMemo(() => {
-  return [...new Set(imoveis.map(imovel => imovel.tipo))];
-}, [imoveis]);
+  const imoveisArray = Array.isArray(imoveisOriginais) ? imoveisOriginais : [];
+  return [...new Set(imoveisArray.map(imovel => imovel.tipo))];
+}, [imoveisOriginais]);
 
-  // Recaucula as sugestões com um debounce de 500ms
+
   useEffect(() => {
-    console.log("entrou useeffetc")
     if (debouncedSugestao.trim() === "") {
       setSugestoes([]);
       return;
@@ -54,19 +58,34 @@ const tiposImoveisUnicos = useMemo(() => {
     setSugestoes(filtradas);
 
   }, [debouncedSugestao, cidadesUnicas, bairrosUnicos]);
+  async function listaImoveis() {
+    try {
+      const response = await fetch('http://localhost:8800/imoveis/list', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
 
+      if (response.ok) {
+        const data = await response.json();
+        setImoveisOriginais(data);
+      } else {
+        console.error('Erro na resposta do servidor');
+      }
+    } catch (error) {
+      console.error('Erro ao conectar ao servidor:', error);
+    }
+  }
+
+  useEffect(() => {
+    listaImoveis();
+  }, []);
  
   function handleOpcaoChange(opcao) {
     setOpcaoSelecionada(opcao);
   }
-
  async function handleFiltrar(event) {
     event.preventDefault();
-    console.log("Filtrando imóveis...");
-    console.log("Opção:", opcaoSelecionada);
-    console.log("Tipo:", tipoSelecionado);
-    console.log("Min:", precoMin, "Max:", precoMax);
-    console.log("localizacao:", sugestao);
+
 
     params.set("localizacao", sugestao);
     params.set("precoMin", precoMin);
@@ -76,7 +95,6 @@ const tiposImoveisUnicos = useMemo(() => {
 
     if(opcaoSelecionada === "Comprar"){
       const url = `/venda?${params.toString()}`;
-      console.log(url)
       try{
         const response = await fetch("http://localhost:8800/imoveis" + url, {
         method: 'GET',
@@ -85,9 +103,12 @@ const tiposImoveisUnicos = useMemo(() => {
         }
       });
 
-        if (response.ok){
+       if (response.ok){
           const data = await response.json();
-          console.log(data)
+          
+          const imoveisArray = data.imoveis || []; 
+
+          onFiltrar(Array.isArray(imoveisArray) ? imoveisArray : []); 
         }else{
           console.error('Erro na resposta do servidor');
           console.log(response.status,'Erro!','error')
@@ -107,9 +128,12 @@ const tiposImoveisUnicos = useMemo(() => {
         }
       });
 
-        if (response.ok){
+       if (response.ok){
           const data = await response.json();
-          console.log(data)
+          
+          const imoveisArray = data.imoveis || []; 
+          
+          onFiltrar(Array.isArray(imoveisArray) ? imoveisArray : []); 
         }else{
           console.error('Erro na resposta do servidor');
           console.log(response.status,'Erro!','error')
@@ -119,29 +143,7 @@ const tiposImoveisUnicos = useMemo(() => {
       
     }
     }
-
-
-
-
   }
-
-  async function listaImoveis() {
-    try {
-      const response = await fetch('http://localhost:8800/imoveis/list');
-      if (response.ok) {
-        const data = await response.json();
-        setImoveis(data);
-      }
-    } catch (error) {
-      console.error('Erro ao conectar ao servidor:', error);
-    }
-  }
-
-  useEffect(() => {
-    console.log("listou imoveis")
-    listaImoveis();
-  }, []);
-
 
     return (
        <div className='contentFilter'>
@@ -185,7 +187,7 @@ const tiposImoveisUnicos = useMemo(() => {
                 className='inputs'
               />
 
-              {/* se tamanho maior que 0 aparece itens, senão não aparece nada */}
+              {}
               {sugestoes.length > 0 && inputFocado &&(
                 <ul id="suggestionsList">
                   {sugestoes.map((item, index) => (
