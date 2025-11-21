@@ -1,12 +1,12 @@
-import "./Main.css";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft  } from '@fortawesome/free-solid-svg-icons';
+import jwt_decode from 'jwt-decode';
+import { useEffect, useState } from 'react';
 import Alert from '../../Components/Alert/Alert';
 import AnuncioCard from '../../Components/AnuncioCard/AnuncioCard';
-import Header from '../../Components/Header/Header';
-import { useEffect, useState } from 'react';
-import jwt_decode from 'jwt-decode';
 import Filtro from '../../Components/Filtro/Filtro';
+import Header from '../../Components/Header/Header';
+import "./Main.css";
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Main() {
   const [imoveis, setImoveis] = useState([]);

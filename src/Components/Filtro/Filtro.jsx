@@ -4,6 +4,8 @@ import { NumericFormat } from 'react-number-format';
 import { FaSearch } from 'react-icons/fa';
 import useDebounce from '../Debounce/useDebounce.jsx'
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function Filtro({ onFiltrar }) {
   const [imoveisOriginais, setImoveisOriginais] = useState([]);
   const [opcaoSelecionada, setOpcaoSelecionada] = useState("Comprar");
@@ -60,7 +62,7 @@ const tiposImoveisUnicos = useMemo(() => {
   }, [debouncedSugestao, cidadesUnicas, bairrosUnicos]);
   async function listaImoveis() {
     try {
-      const response = await fetch('http://localhost:8800/imoveis/list', {
+      const response = await fetch(`${API_URL}/imoveis/list`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });
@@ -96,7 +98,7 @@ const tiposImoveisUnicos = useMemo(() => {
     if(opcaoSelecionada === "Comprar"){
       const url = `/venda?${params.toString()}`;
       try{
-        const response = await fetch("http://localhost:8800/imoveis" + url, {
+        const response = await fetch(`${API_URL}/imoveis` + url, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -121,7 +123,7 @@ const tiposImoveisUnicos = useMemo(() => {
     }else{
       const url = `/aluguel?${params.toString()}`;
       try{
-        const response = await fetch("http://localhost:8800/imoveis" + url, {
+        const response = await fetch(`${API_URL}/imoveis` + url, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
