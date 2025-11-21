@@ -57,3 +57,17 @@ Funcionalidade: Gerenciamento de Imóveis
     Quando eu envio uma requisição GET para "/imoveis/coords/Rua dos Testes, 123, Test City, TS"
     Então a resposta deve ter o status 200
     E a resposta deve conter as coordenadas "lat" e "lon"
+
+  Cenário: Filtrar imóveis para venda por localização e preço
+    Dado que existe um imóvel para "VENDA" com a cidade "Praia Grande" e valor "450000"
+    Quando eu envio uma requisição GET para "/imoveis/venda?localizacao=Praia%20Grande&precoMin=400000&precoMax=500000"
+    Então a resposta deve ter o status 200
+    E a lista de imóveis na resposta deve conter 1 item(s)
+    E o primeiro imóvel na lista deve ter a cidade "Praia Grande"
+
+  Cenário: Filtrar imóveis para aluguel por tipo
+    Dado que existe um imóvel para "ALUGUEL" com o tipo "Apartamento"
+    Quando eu envio uma requisição GET para "/imoveis/aluguel?tipoImovel=Apartamento"
+    Então a resposta deve ter o status 200
+    E a lista de imóveis na resposta deve conter pelo menos 1 item(s)
+    E todos os imóveis na lista devem ter o tipo "Apartamento"

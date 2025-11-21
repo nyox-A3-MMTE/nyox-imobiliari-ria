@@ -136,3 +136,65 @@ Then('a resposta deve conter as coordenadas {string} e {string}', function (lat,
     expect(this.response.body).to.have.property(lat);
     expect(this.response.body).to.have.property(lon);
 });
+
+Given('que existe um imóvel para {string} com a cidade {string} e valor {string}', async function (modalidade, cidade, valor) {
+  const imovelData = {
+    descricao: `Imóvel de Teste ${modalidade} ${cidade}`,
+    cep: "11700000",
+    endereco: "Av. Exemplo",
+    bairro: "Bairro Teste",
+    cidade: cidade,
+    estado: "SP",
+    tipo: "Casa",
+    quartos: 3,
+    banheiros: 2,
+    vagas_garagem: 2,
+    area_total: 200,
+    valor: parseFloat(valor),
+    modalidade: modalidade,
+    Ativo: true,
+  };
+  const { data, error } = await supabase.from("Imoveis").insert(imovelData).select();
+  if (error) throw new Error(`Failed to create imovel for filter test: ${error.message}`);
+  testImoveis.push(data[0]);
+});
+
+Given('que existe um imóvel para {string} com o tipo {string}', async function (modalidade, tipo) {
+  const imovelData = {
+    descricao: `Imóvel de Teste ${modalidade} ${tipo}`,
+    cep: "11700001",
+    endereco: "Av. Teste",
+    bairro: "Outro Bairro",
+    cidade: "São Vicente",
+    estado: "SP",
+    tipo: tipo,
+    quartos: 2,
+    banheiros: 1,
+    vagas_garagem: 1,
+    area_total: 100,
+    valor: 250000,
+    modalidade: modalidade,
+    Ativo: true,
+  };
+  const { data, error } = await supabase.from("Imoveis").insert(imovelData).select();
+  if (error) throw new Error(`Failed to create imovel for filter test: ${error.message}`);
+  testImoveis.push(data[0]);
+});
+
+Then('a lista de imóveis na resposta deve conter {int} item\\(s)', function (count) {
+  expect(this.response.body.imoveis).to.have.lengthOf(count);
+});
+
+Then('a lista de imóveis na resposta deve conter pelo menos {int} item\\(s)', function (count) {
+    expect(this.response.body.imoveis.length).to.be.at.least(count);
+});
+
+Then('o primeiro imóvel na lista deve ter a cidade {string}', function (cidade) {
+  expect(this.response.body.imoveis[0].cidade).to.equal(cidade);
+});
+
+Then('todos os imóveis na lista devem ter o tipo {string}', function (tipo) {
+  for (const imovel of this.response.body.imoveis) {
+    expect(imovel.tipo).to.equal(tipo);
+  }
+});

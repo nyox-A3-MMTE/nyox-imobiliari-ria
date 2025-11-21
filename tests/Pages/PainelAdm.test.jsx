@@ -71,6 +71,7 @@ describe("PainelAdm", () => {
 
   it("deve alertar e redirecionar se não houver token", async () => {
     localStorageMock.clear();
+    mockFetch(mockOk([]));
     renderPage();
 
     await waitFor(() => {
@@ -81,6 +82,7 @@ describe("PainelAdm", () => {
 
   it("deve expirar token e redirecionar", async () => {
     setToken({ exp: Date.now() / 1000 - 10, type: "adm" });
+    mockFetch(mockOk([]));
     renderPage();
 
     await waitFor(() => {
@@ -92,6 +94,7 @@ describe("PainelAdm", () => {
 
   it("deve bloqueiar acesso para visitante", async () => {
     setToken({ exp: Date.now() / 1000 + 3600, type: "visit" });
+    mockFetch(mockOk([]));
     renderPage();
 
     await waitFor(() => {

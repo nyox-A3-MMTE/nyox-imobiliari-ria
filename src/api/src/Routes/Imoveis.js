@@ -765,6 +765,52 @@ router.get('/coords/:q', async(req, res) =>{
   }
 });
 
+/**
+ * @swagger
+ * /imoveis/venda:
+ *   get:
+ *     summary: Filtra imóveis marcados para venda
+ *     tags: [Imóveis]
+ *     parameters:
+ *       - in: query
+ *         name: localizacao
+ *         schema:
+ *           type: string
+ *         description: "Cidade, bairro ou estado para busca."
+ *       - in: query
+ *         name: tipoImovel
+ *         schema:
+ *           type: string
+ *         description: "Tipo do imóvel (ex: Casa, Apartamento)."
+ *       - in: query
+ *         name: precoMin
+ *         schema:
+ *           type: number
+ *         description: "Valor mínimo do imóvel."
+ *       - in: query
+ *         name: precoMax
+ *         schema:
+ *           type: number
+ *         description: "Valor máximo do imóvel."
+ *     responses:
+ *       200:
+ *         description: Lista de imóveis filtrados para venda.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 count:
+ *                   type: integer
+ *                 imoveis:
+ *                   type: array
+ *                   items:
+ *                     type: object 
+ *       500:
+ *         description: Erro interno do servidor.
+ */
 router.get('/venda', async (req, res) => {
   try {
     const { localizacao, tipoImovel, precoMin, precoMax } = req.query;
@@ -830,6 +876,52 @@ router.get('/venda', async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /imoveis/aluguel:
+ *   get:
+ *     summary: Filtra imóveis marcados para aluguel
+ *     tags: [Imóveis]
+ *     parameters:
+ *       - in: query
+ *         name: localizacao
+ *         schema:
+ *           type: string
+ *         description: "Cidade, bairro ou estado para busca."
+ *       - in: query
+ *         name: tipoImovel
+ *         schema:
+ *           type: string
+ *         description: "Tipo do imóvel (ex: Casa, Apartamento)."
+ *       - in: query
+ *         name: precoMin
+ *         schema:
+ *           type: number
+ *         description: "Valor mínimo do imóvel."
+ *       - in: query
+ *         name: precoMax
+ *         schema:
+ *           type: number
+ *         description: "Valor máximo do imóvel."
+ *     responses:
+ *       200:
+ *         description: Lista de imóveis filtrados para aluguel.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 count:
+ *                   type: integer
+ *                 imoveis:
+ *                   type: array
+ *                   items:
+ *                     type: object 
+ *       500:
+ *         description: Erro interno do servidor.
+ */
 router.get('/aluguel', async (req, res) => {
   try {
     const { localizacao, tipoImovel, precoMin, precoMax } = req.query;

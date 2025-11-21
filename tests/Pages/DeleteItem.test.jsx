@@ -72,14 +72,18 @@ describe("DeleteItem", () => {
     });
   });
 
-  it("deve redirecionar para login sem token", () => {
+  it("deve redirecionar para login sem token", async () => {
     localStorageMock.clear();
+    mockFetch([mockOk([])]);
     const original = window.location;
     delete window.location;
     window.location = { href: "" };
 
     renderPage();
-    expect(window.location.href).toBe("/login");
+    
+    await waitFor(() => {
+      expect(window.location.href).toBe("/login");
+    });
 
     window.location = original;
   });

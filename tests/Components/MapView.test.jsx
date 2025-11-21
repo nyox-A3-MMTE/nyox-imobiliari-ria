@@ -45,9 +45,14 @@ describe("MapView Component", () => {
     global.fetch.mockReset();
   });
 
-  it("deve renderizar o container do mapa e componentes filhos", () => {
+  it("deve renderizar o container do mapa e componentes filhos", async () => {
+    global.fetch.mockResolvedValueOnce({ ok: true, json: async () => ({ lat: '0', lon: '0' }) });
     render(<MapView imovel={mockImovel} />);
-    expect(screen.getByTestId("map-container")).toBeInTheDocument();
+    
+    await waitFor(() => {
+        expect(screen.getByTestId("map-container")).toBeInTheDocument();
+    });
+
     expect(screen.getByTestId("tile-layer")).toBeInTheDocument();
     expect(screen.getByTestId("circle")).toBeInTheDocument();
   });

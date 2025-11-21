@@ -31,7 +31,7 @@ const localStorageMock = (() => {
 Object.defineProperty(window, "localStorage", { value: localStorageMock });
 
 const mockFetch = (data = []) => {
-  global.fetch.mockResolvedValueOnce({
+  global.fetch.mockResolvedValue({
     ok: true,
     json: async () => data,
   });

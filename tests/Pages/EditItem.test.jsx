@@ -89,6 +89,7 @@ describe("EditItem Page", () => {
 
   it("deve redirecionar se não houver token", () => {
     localStorageMock.clear();
+    mockFetch(mockOk([]));
     const original = window.location;
     delete window.location;
     window.location = { href: "" };
