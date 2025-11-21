@@ -6,6 +6,7 @@ import AnuncioCard from '../../Components/AnuncioCard/AnuncioCard';
 import Header from '../../Components/Header/Header';
 import { useEffect, useState } from 'react';
 import jwt_decode from 'jwt-decode';
+import Filtro from '../../Components/Filtro/Filtro';
 
 function Main() {
   const [imoveis, setImoveis] = useState([]);
@@ -65,8 +66,14 @@ function Main() {
   return (
     <div className="Main">
       <Header user= {user} />
+    <div className="filtroContainer">
+      <Filtro 
+        imoveis={imoveis}
+        onFiltrar={(result) => setImoveis(result)}
+      />
+    </div>
       <div className="imoveis">
-        {imoveis.map((imovel, index) => (
+        {Array.isArray(imoveis) && imoveis.map((imovel, index) => (
           <div
             key={index}
             className="imovelhome"

@@ -5,6 +5,10 @@
     
 }
 
+.filtroContainer{
+    width: 100%;
+}
+
 .imoveis{
      display: flex;
     flex-direction: row;
