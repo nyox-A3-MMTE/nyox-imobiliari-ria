@@ -1,25 +1,39 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Alert from '../../Components/Alert/Alert';
 import './Login.css';
-
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Login() {
   const navigate = useNavigate();
-  const [form, setForm] = useState({
+  const loginEmptyForm = {
     email: '',
     senha: ''
-  });
+  };
+  const cadastroEmptyForm = {
+    nome:'',
+    email:'',
+    idade:'',
+    cpf:'',
+    senha:''
+  };
+  const [form, setForm] = useState(loginEmptyForm);
 
-  const [mensagem, setMensagem] = useState({mensagem: '', tipo: ''});
+  const[formregister,setformregister]=useState(cadastroEmptyForm);
 
-  const handleChange = (e) => {
+  
+  const handleChangeLogin = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleChangeRegister = (e) => {
+    setformregister({ ...formregister, [e.target.name]: e.target.value });
+    };
+
+  const handleSubmitLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:8800/users/login', {
+      const response = await fetch(`${API_URL}/users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -27,56 +41,150 @@ function Login() {
         body: JSON.stringify(form)
       });
 
-      const data = await response.json();
-      console.log('Resposta do backend:', data);
-      
+       const data = await response.json();
+            
       if (response.ok) {
-       setMensagem({mensagem: data.message, tipo: 'sucesso'});
-       setForm({ email: '', senha: '' });
-       setTimeout(() => {
+       if(data.type == "adm"){
+        localStorage.setItem("token", data.token);
+        await Alert(data.message,'Sucesso!','success');
+        setTimeout(() => {
+        navigate('/AdmPannel');
+        }, 2000)
+       }else{
+        localStorage.setItem("token", data.token)
+        await Alert(data.message,'Sucesso!','success');
+        setTimeout(() => {
         navigate('/');
-        }, 2000);
-        
+        }, 2000)
+       }
+       setForm({ email: '', senha: '' });
 
       } else {
-        setMensagem({mensagem: 'Erro ao logar!', tipo: 'erro'});
+        await  Alert(data.message,'Erro!','error');
+
+        setformregister(cadastroEmptyForm);
+        setForm(loginEmptyForm);
       }
       }catch (error) {
-        setMensagem({mensagem: 'Erro ao logar!', tipo: 'erro'});
-      
+        await Alert('Erro ao conectar ao servidor:','Erro!','error');
+
+        setformregister(cadastroEmptyForm);
+        setForm(loginEmptyForm);
       }
-       setTimeout(() => setMensagem({ mensagem: '', tipo: '' }), 3000);
+       
     };
+
+    const handleSubmitRegister = async (e) => {
+    e.preventDefault();
+
+
+    try {
+      const response = await fetch(`${API_URL}/users/cadastro`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formregister)
+      });
+
+      const data = await response.json({});
+
+      if(response.ok){
+        await Alert(data.message,'Sucesso!','success')
+
+        setformregister(cadastroEmptyForm);
+
+        navigate('/login');
+      } else {
+        await Alert(data.message,'Erro!','error');
+
+        setformregister(cadastroEmptyForm);
+        setForm(loginEmptyForm);
+      }
+    } catch (error) {
+      await Alert('Erro ao conectar ao servidor:','Erro!','error')
+      
+      setformregister(cadastroEmptyForm);
+      setForm(loginEmptyForm);
+    }
+    }
 
   return (
     <div className="login-container">  
-      <div className={`mensagem ${mensagem.tipo} ${mensagem.mensagem ? 'show' : ''}`}>
-        {mensagem.mensagem}
-      </div>
+   
+      
 
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
+      <form onSubmit={handleSubmitRegister}>
+        <h2>Cadastre-se</h2>
+        <label>Nome:</label>
+        <input
+          type="text"
+          name="nome"
+          value={formregister.nome}
+          onChange={handleChangeRegister}
+          required
+        />
+
+        <label>Email:</label>
+        <input
+          type="email"
+          name="email"
+          value={formregister.email}
+          onChange={handleChangeRegister}
+          required
+        />
+
+        <label>Idade:</label>
+        <input
+          type="text"
+          name="idade"
+          value={formregister.idade}
+          onChange={handleChangeRegister}
+          required
+        />
+
+        <label>CPF:</label>
+        <input
+          type="text"
+          name="cpf"
+          value={formregister.cpf}
+          onChange={handleChangeRegister}
+          required
+        />
+
+        <label>Senha:</label>
+        <input
+          type="password"
+          name="senha"
+          value={formregister.senha}
+          onChange={handleChangeRegister}
+          required
+        />
+
+        <button type="submit">Cadastrar</button>
+      </form>
+      
+      <form onSubmit={handleSubmitLogin}>
+        <h2>Já possui uma conta ?</h2>
           <label>Email:</label>
           <input
             type="email"
             name="email"
             value={form.email}
-            onChange={handleChange}
+            onChange={handleChangeLogin}
             required
           />
-        </div>
-        <div>
+        
           <label>Senha:</label>
           <input
             type="password"
             name="senha"
             value={form.senha}
-            onChange={handleChange}
+            onChange={handleChangeLogin}
             required
           />
-        </div>
-        <button type="submit">Enviar</button>
+        <button type="submit" >Enviar</button>
+        <button  type="button"  onClick={()=>window.location="/"}>Sair</button>
       </form>
     </div>
   );

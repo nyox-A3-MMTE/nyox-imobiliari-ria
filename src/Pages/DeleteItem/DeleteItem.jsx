@@ -1,0 +1,123 @@
+import Sidebar from '../../Components/Sidebar/Sidebar';
+import { useState, useEffect } from 'react';
+import './DeleteItem.css';
+import Alert from '../../Components/Alert/Alert';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faEdit,faUndo } from '@fortawesome/free-solid-svg-icons'
+import { useNavigate } from 'react-router-dom';
+const API_URL = import.meta.env.VITE_API_URL;
+
+function DeleteItem() {
+  const navigate = useNavigate();
+  const [imoveis, setImoveis] = useState([]);
+  useEffect(() => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        window.location.href = "/login"; 
+      } 
+    }, []);
+
+  async function listaImoveis() {
+    try {
+      const response = await fetch(`${API_URL}/imoveis/listInatives`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setImoveis(data);
+      } else {
+        console.error('Erro na resposta do servidor');
+      }
+    } catch (error) {
+      console.error('Erro ao conectar ao servidor:', error);
+    }
+  }
+
+    async function handleReactivate(id) {
+    try {
+      const response = await fetch(`${API_URL}/imoveis/reactivate/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+            if (response.ok) {
+            const reactivatedImovel = await response.json();
+            setImoveis(prevImoveis => prevImoveis.filter(imovel => imovel.id !== reactivatedImovel.id));
+            await Alert('Imóvel foi reativado!','Sucesso!','success')
+
+      } else {
+        console.error('Erro na resposta do servidor');
+         await Alert('Erro ao processar!','Erro!','error')
+
+        }
+      } catch (error) {
+      console.error('Erro ao conectar ao servidor:', error);
+      await Alert('Erro ao processar!','Erro!','error')
+    }
+  }
+
+  async function handleDeletePerm(id) {
+    try {
+      const response = await fetch(`${API_URL}/imoveis/deletePerm/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+      });
+            if (response.ok) {
+            const deletedPermImovel = await response.json();
+            setImoveis(prevImoveis => prevImoveis.filter(imovel => imovel.id !== deletedPermImovel.id));
+            await Alert('Imóvel foi deletado permanentemente!','Sucesso!','success')
+      } else {
+        console.error('Erro na resposta do servidor');
+        await Alert('Erro ao processar!','Erro!','error')
+        }
+      } catch (error) {
+      console.error('Erro ao conectar ao servidor:', error);
+      await Alert('Erro ao processar!','Erro!','error')
+    }
+        }
+
+
+  useEffect(() => {
+    listaImoveis();
+  }, []);
+
+
+    return (  
+        <div>
+            <Sidebar/>
+            <div className='main'>
+                {imoveis.map((imovel, index) => (
+                <div key={index} className="imoveldelete">
+                    <div>
+                    <h2>{imovel.descricao}</h2>
+                    <p>Bairro: {imovel.bairro}</p>
+                    <p>Cidade: {imovel.cidade}</p>
+                    <p>Estado: {imovel.estado}</p>
+                    <p>Tipo: {imovel.tipo}</p>
+                    <p>Quartos: {imovel.quartos}</p>
+                    <p>Banheiros: {imovel.banheiros}</p>
+                    <p>Vagas na garagem: {imovel.vagas_garagem}</p>
+                    <p>Área total: {imovel.area_total} m²</p>
+                    <p>Valor: {imovel.valor}</p>
+                    </div>
+                    <div className='containerBotoes'>
+                            <div className='botoes'>
+                                <button className='restaurar' onClick={() => handleReactivate(imovel.id)}><FontAwesomeIcon icon={faUndo} />Restaurar</button>
+                                <button className='edita' onClick={() => navigate('/AdmPannel/EditItem',{state: { id: imovel.id }})}><FontAwesomeIcon icon={faEdit} />Editar</button>
+                                <button className='excluirPerm' onClick={() => handleDeletePerm(imovel.id)}><FontAwesomeIcon icon={faTrash} />Excluir permanentemente</button>
+                            </div>
+                    </div>
+                </div>
+                ))}
+            </div>
+        </div>
+    );
+}
+
+export default DeleteItem;

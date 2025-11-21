@@ -25,23 +25,28 @@ header a{
     text-decoration: none;
     color: black;
     font-weight: bold;
-    min-width: 9rem;
+    min-width: 8rem;
     padding: 2%;
 }
 
 header a:hover{ 
+    background-color: rgb(19, 48, 77);
     color: white;
     border-radius: 20px;
     transition: 0.3s;
 }
 
-.cadastro{
-    background-color: rgb(19, 47, 77); 
+.cadastrar{
+    background-color: rgba(19, 48, 77, 0.8); 
     border-radius: 20px;
+    min-width: 11rem;
+    max-width: 11rem
+   
+    
 }
 
 header li{
-    padding-left: 40%;
+    padding-left: 50%;
     list-style: none;
     display: flex;
 }

@@ -1,0 +1,56 @@
+.Main{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    
+}
+
+.filtroContainer{
+    width: 100%;
+}
+
+.imoveis{
+     display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 3rem;
+    padding: 3rem;
+}
+
+.imovelhome{
+    border: 0.1px solid #b1b1b1;
+    padding: 1rem;
+    border-radius: 8px;
+    width: 30rem;
+    min-width: 30rem;
+    max-height: 45rem;
+    display: flex;
+    flex-direction: row;
+    resize: horizontal;
+    overflow: auto;
+    gap: 3rem;
+    transition: 1s;
+    overflow: hidden;
+}
+
+.imovelhome p{
+    color: rgb(0, 0, 0);
+    padding: 0.3rem;
+}
+
+.detalhes{
+  align-items: center;
+  padding: 5rem;
+}
+
+.detalhes p{
+    font-weight: 900;
+    padding: 0.7rem;
+}
+
+.mostrar-menos{
+    color: #ffffff;
+    background-color: #13304d;
+    min-width: 5rem;
+    min-height: 3rem;
+}
