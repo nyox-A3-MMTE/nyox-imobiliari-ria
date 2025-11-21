@@ -12,6 +12,9 @@ export default defineConfig({
     coverage:{
       provider: 'v8',
       reporter:['text', 'html']
+    },
+    env: {
+      VITE_API_URL: 'http://localhost:8800'
     }
   },
 })

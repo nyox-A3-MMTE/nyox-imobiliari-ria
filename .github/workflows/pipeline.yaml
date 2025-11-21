@@ -1,0 +1,48 @@
+name: Pipeline CI
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.*"
+          cache: "npm"
+
+      - name: Install Frontend Dependencies
+        run: npm install
+
+      - name: Test Frontend
+        run: npm test
+
+      - name: Build Frontend
+        run: npm run build
+
+      - name: Install Backend Dependencies
+        working-directory: ./src/api
+        run: npm install
+      
+      - name: Test Backend
+        working-directory: ./src/api
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+          LOCATIONIQ_API_KEY: ${{ secrets.LOCATIONIQ_API_KEY }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        run: npm test
+
+      
