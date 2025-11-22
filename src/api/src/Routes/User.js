@@ -1,7 +1,7 @@
-import {Router} from "express";
-import supabase from '../Connection/Supabase.js'
 import bcrypt from 'bcrypt';
+import { Router } from "express";
 import jwt from 'jsonwebtoken';
+import supabase from '../Connection/Supabase.js';
 
 
 
@@ -107,7 +107,7 @@ router.post('/login', async (req, res) => {
                     { expiresIn: '1h' }
                     );
                     console.log(token)
-                    return res.status(200).json({ success: true, message: 'Usuário logado com sucesso!', type, token });
+                    return res.status(200).json({ success: true, message: 'Usuário logado com sucesso!', type});
                 }
             }
             } catch (err) {
@@ -122,7 +122,7 @@ router.post('/login', async (req, res) => {
                     { expiresIn: '1h' }
                     );
                     
-                return res.status(200).json({ message: 'Login realizado com sucesso', type, token });
+                return res.status(200).json({ message: 'Login realizado com sucesso', type});
             }
             }
     catch (err) {
