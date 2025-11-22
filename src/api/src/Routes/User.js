@@ -107,7 +107,7 @@ router.post('/login', async (req, res) => {
                     { expiresIn: '1h' }
                     );
                     console.log(token)
-                    return res.status(200).json({ success: true, message: 'Usuário logado com sucesso!', type});
+                    return res.status(200).json({ success: true, message: 'Usuário logado com sucesso!', type, token});
                 }
             }
             } catch (err) {
@@ -122,7 +122,7 @@ router.post('/login', async (req, res) => {
                     { expiresIn: '1h' }
                     );
                     
-                return res.status(200).json({ message: 'Login realizado com sucesso', type});
+                return res.status(200).json({ message: 'Login realizado com sucesso', type, token});
             }
             }
     catch (err) {
