@@ -46,8 +46,9 @@ function Home() {
       <header>
         <img src={logo} alt="Logo" />
         <li>
-          <a href="/">Imóveis</a>
+          <a href="/Main">Imóveis</a>
           <a href="/">Sobre nós</a>
+          <a href="/docs">Documentação</a>
           <a className='cadastrar' href="/login">
             <FontAwesomeIcon icon={faUser} size="lg" /> {user}
           </a>
