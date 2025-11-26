@@ -1,146 +1,174 @@
-# Nyox Imobiliária
+🏠 Nyox Imobiliária — Plataforma Completa de Gerenciamento Imobiliário
+<p align="center"> <img src="https://img.shields.io/badge/status-online-brightgreen?style=for-the-badge" /> <img src="https://img.shields.io/badge/license-MIT-blue?style=for-the-badge" /> <img src="https://img.shields.io/badge/frontend-React-61dafb?style=for-the-badge&logo=react&logoColor=white" /> <img src="https://img.shields.io/badge/backend-Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white" /> <img src="https://img.shields.io/badge/database-Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white" /> <img src="https://img.shields.io/badge/tests-Vitest/Cucumber.js-yellow?style=for-the-badge" /> </p>
+🌟 Sobre o Projeto
 
-Este é um sistema de gerenciamento imobiliário completo, projetado para otimizar a listagem, busca e administração de propriedades. O sistema é construído com uma arquitetura moderna e escalável, utilizando tecnologias de ponta para garantir uma experiência de usuário rápida e um desenvolvimento eficiente.
+O Nyox Imobiliária é um sistema completo de gerenciamento imobiliário, projetado para otimizar a listagem, busca e administração de propriedades.
+Com uma arquitetura moderna e escalável, o projeto utiliza tecnologias de ponta para garantir uma experiência rápida, segura e profissional, tanto para usuários quanto para administradores.
 
----
+A plataforma conta com:
 
-## Como executar o projeto
+Catálogo público de imóveis
 
-### 1. Clonar o repositório
-```bash
+Criação de conta opcional
+
+Autenticação por JWT
+
+Painel administrativo restrito a administradores
+
+CRUD completo de imóveis
+
+Testes automatizados no frontend e backend
+
+Deploy simplificado e arquitetura clara
+
+🚀 Tecnologias Utilizadas
+Backend
+
+Node.js
+
+Express
+
+Supabase (PostgreSQL + Auth + Storage)
+
+JWT
+
+Cucumber.js
+
+Docker
+
+Frontend
+
+React
+
+Vite
+
+React Router
+
+Vitest
+
+React Testing Library
+
+DevOps
+
+GitHub Actions
+
+Docker
+
+🛠️ Como Executar o Projeto
+1. Clonar o repositório
 git clone https://github.com/nyox-A3-MMTE/nyox-imobiliari-ria.git
 cd nyox-imobiliari-ria/
-```
 
-### 2. Configurar Variáveis de Ambiente
-
-#### Backend (API)
-Navegue até o diretório da API e crie um arquivo `.env`:
-```bash
+⚙️ 2. Configurar Variáveis de Ambiente
+Backend (API)
 cd src/api
-```
-Adicione as seguintes variáveis ao arquivo `.env`:
-```env
+
+
+Crie um arquivo .env:
+
 SUPABASE_URL=<sua_url_supabase>
 SUPABASE_KEY=<sua_chave_supabase>
 STORAGE_NAME=<nome_storage_utilizado>
 LOCATIONIQ_API_KEY=<sua_chave_locationiq>
-```
-- `SUPABASE_URL` e `SUPABASE_KEY`: Credenciais do projeto no [Supabase](https://supabase.com/).
-- `LOCATIONIQ_API_KEY`: Chave de API do [LocationIQ](https://locationiq.com/) para geocodificação.
-- `STORAGE_NAME`: Storrage utilizado para armazenamento das imgens imoveis.
 
-#### Frontend
-Volte para o diretório raiz e crie um arquivo `.env` para o frontend:
-```bash
-cd ../.. 
-```
-Adicione a seguinte variável:
-```env
+
+SUPABASE_URL / SUPABASE_KEY → Credenciais do Supabase
+STORAGE_NAME → Storage utilizado para imagens dos imóveis
+LOCATIONIQ_API_KEY → Chave do LocationIQ para geocodificação
+
+Frontend
+
+Volte para o diretório raiz:
+
+cd ../..
+
+
+Crie um arquivo .env:
+
 VITE_API_URL=http://localhost:8800
-```
-- `VITE_API_URL`: URL base onde a API do backend está sendo executada.
 
-### 3. Instalar Dependências e Iniciar
-
-#### Backend (API)
-No diretório `src/api`, instale as dependências e inicie o servidor:
-```bash
+▶️ 3. Instalar Dependências e Iniciar
+Backend
+cd src/api
 npm install
 npm run dev
-```
-A API estará em execução em `http://localhost:8800`.
 
-#### Frontend
-No diretório **raiz** do projeto, instale as dependências e inicie a aplicação:
-```bash
+
+A API estará em:
+http://localhost:8800
+
+Frontend
+cd ../..
 npm install
 npm run dev
-```
-O frontend será iniciado em `http://localhost:5173` (ou outra porta disponível).
 
----
 
-## Testes
+A aplicação estará em:
+http://localhost:5173
 
-O projeto possui suítes de teste para o frontend e para o backend.
-
-### Testes do Frontend (Vitest)
-Os testes de componentes e páginas do frontend usam [Vitest](https://vitest.dev/) e [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/). Para executá-los, rode o seguinte comando no diretório **raiz**:
-
-```bash
+🧪 Testes
+Frontend — Vitest
 npm test
-```
-Para gerar um relatório de cobertura de testes, execute:
-```bash
-npm run test -- --coverage
-```
 
-### Testes do Backend (Cucumber.js)
-Os testes de comportamento (BDD) da API usam [Cucumber.js](https://cucumber.io/). Para executá-los, navegue até o diretório da API e execute o comando:
-```bash
+
+Gerar cobertura:
+
+npm run test -- --coverage
+
+Backend — Cucumber.js
 cd src/api
 npm test
-```
-Isso executará os cenários definidos nos arquivos `.feature` contra a API.
 
----
 
-## Tecnologias Utilizadas
-- **Backend**: Node.js, Express, Supabase (PostgreSQL), Cucumber.js, JWT.
-- **Frontend**: React, Vite, Vitest, React Testing Library, React Router.
-- **DevOps**: Docker, GitHub Actions.
+Executa os cenários BDD definidos nos arquivos .feature.
 
----
-
-## Estrutura do Projeto
-A estrutura foi organizada para separar claramente o frontend do backend, com seus respectivos testes.
-
-```
+📂 Estrutura do Projeto
 nyox-imobiliari-ria/
-├── .github/              # Workflows do GitHub Actions
-├── public/               # Ativos estáticos do frontend
+├── .github/                # Workflows do CI/CD
+├── public/                 # Arquivos estáticos do frontend
 ├── src/
-│   ├── api/              # Código-fonte do Backend (Node.js)
+│   ├── api/                # Backend (Node + Express)
 │   │   ├── src/
 │   │   │   ├── Connection/
 │   │   │   ├── Routes/
 │   │   │   └── ...
-│   │   ├── tests/          # Testes BDD do Backend
-│   │   │   ├── features/   # Arquivos .feature do Cucumber
-│   │   │   └── steps/      # Definições de passos do Cucumber
+│   │   ├── tests/          # Testes BDD (Cucumber)
+│   │   │   ├── features/
+│   │   │   └── steps/
 │   │   ├── .env.example
 │   │   ├── cucumber.js
 │   │   └── package.json
-│   ├── assets/             # Imagens e outros ativos
-│   ├── Components/         # Componentes React reutilizáveis
-│   ├── Pages/              # Páginas da aplicação React
-│   ├── main.jsx            # Ponto de entrada do React
-│   └── setupTests.js       # Configuração para testes do Vitest
-├── tests/                  # Testes unitários do Frontend (Vitest)
+│   ├── assets/             # Imagens e recursos
+│   ├── Components/         # Componentes React
+│   ├── Pages/              # Páginas React
+│   ├── main.jsx            # Entrada do frontend
+│   └── setupTests.js       # Configuração Vitest
+├── tests/                  # Testes unitários do frontend
 │   ├── Components/
 │   └── Pages/
 ├── .gitignore
-├── package.json            # Dependências do Frontend
+├── package.json            # Dependências do frontend
 ├── README.md
-└── vite.config.js          # Configuração do Vite
-```
----
-## Contribuidores
+└── vite.config.js
 
-Lista de contribuintes do projeto:
+👥 Contribuidores
 
-1. **Carlos Eduardo da Silva** — RA: 42413109  
-2. **Gustavo Henrique dos Santos** — RA: 42424538  
-3. **Henrique Oliveira Ferreira** — RA: 42414581  
-4. **João Vitor Martins Matos** — RA: 42414921  
-5. **Heitor Zeferino Siqueira** — RA: 42521884  
-6. **Pedro Henriques Ferreira** — RA: 42411210  
-7. **Rodrigo Queiroz Vieira Freire** — RA: 42414808  
+Carlos Eduardo da Silva — RA: 42413109
 
-Como contribuir: abra uma issue ou envie um pull request no repositório descrevendo as alterações propostas. Obrigado pela colaboração!
+Gustavo Henrique dos Santos — RA: 42424538
 
----
+Henrique Oliveira Ferreira — RA: 42414581
 
-## Licença
+João Vitor Martins Matos — RA: 42414921
+
+Heitor Zeferino Siqueira — RA: 42521884
+
+Pedro Henriques Ferreira — RA: 42411210
+
+Rodrigo Queiroz Vieira Freire — RA: 42414808
+
+Para contribuir: abra uma issue ou envie um pull request descrevendo as alterações propostas.
+
+📄 Licença
+
 Este projeto é de uso acadêmico e está disponível sob a licença MIT.
