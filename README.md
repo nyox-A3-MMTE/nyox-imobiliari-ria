@@ -1,66 +1,18 @@
-🏠 Nyox Imobiliária — Plataforma Completa de Gerenciamento Imobiliário
-<p align="center"> <img src="https://img.shields.io/badge/status-online-brightgreen?style=for-the-badge" /> <img src="https://img.shields.io/badge/license-MIT-blue?style=for-the-badge" /> <img src="https://img.shields.io/badge/frontend-React-61dafb?style=for-the-badge&logo=react&logoColor=white" /> <img src="https://img.shields.io/badge/backend-Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white" /> <img src="https://img.shields.io/badge/database-Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white" /> <img src="https://img.shields.io/badge/tests-Vitest/Cucumber.js-yellow?style=for-the-badge" /> </p>
-🌟 Sobre o Projeto
-
-O Nyox Imobiliária é um sistema completo de gerenciamento imobiliário, projetado para otimizar a listagem, busca e administração de propriedades.
-Com uma arquitetura moderna e escalável, o projeto utiliza tecnologias de ponta para garantir uma experiência rápida, segura e profissional, tanto para usuários quanto para administradores.
-
-A plataforma conta com:
-
-Catálogo público de imóveis
-
-Criação de conta opcional
-
-Autenticação por JWT
-
-Painel administrativo restrito a administradores
-
-CRUD completo de imóveis
-
-Testes automatizados no frontend e backend
-
-Deploy simplificado e arquitetura clara
-
-🚀 Tecnologias Utilizadas
-Backend
-
-Node.js
-
-Express
-
-Supabase (PostgreSQL + Auth + Storage)
-
-JWT
-
-Cucumber.js
-
-Docker
-
-Frontend
-
-React
-
-Vite
-
-React Router
-
-Vitest
-
-React Testing Library
-
-DevOps
-
-GitHub Actions
-
-Docker
-
-🛠️ Como Executar o Projeto
-1. Clonar o repositório
+<div align="center"> <h1 style="font-size: 42px; font-weight: 900;">🏠 Nyox Imobiliária</h1> <p style="font-size: 18px; max-width: 700px;"> Sistema completo, moderno e profissional para gerenciamento, listagem e administração de imóveis — com arquitetura escalável e tecnologias eficientes. </p> <br> <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge"/> <img src="https://img.shields.io/badge/Frontend-React-61dafb?style=for-the-badge&logo=react&logoColor=white"/> <img src="https://img.shields.io/badge/Backend-Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white"/> <img src="https://img.shields.io/badge/Database-Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white"/> </div>
+<br>
+✨ Visão Geral
+<div style="background: #f6f8fa; padding: 18px; border-radius: 10px; border-left: 6px solid #4CAF50;"> <b>Nyox Imobiliária</b> é um sistema de gerenciamento imobiliário projetado para oferecer eficiência, velocidade e organização no cadastro, listagem e administração de imóveis. Construído com tecnologias modernas, entrega uma experiência elegante e fluida, tanto no catálogo público quanto no painel administrativo. </div>
+🏡 Funcionalidades
+<div style="display: flex; gap: 20px; flex-wrap: wrap;"> <div style="flex: 1; min-width: 230px; background: #fff; border-radius: 12px; padding: 18px; border: 1px solid #e4e4e4;"> <h3>🔍 Catálogo Público</h3> <ul> <li>Listagem aberta ao público</li> <li>Interface rápida e responsiva</li> <li>Visual moderno</li> </ul> </div> <div style="flex: 1; min-width: 230px; background: #fff; border-radius: 12px; padding: 18px; border: 1px solid #e4e4e4;"> <h3>🔐 Autenticação</h3> <ul> <li>Criação de conta opcional</li> <li>Login com JWT</li> <li>Segurança e controle de acesso</li> </ul> </div> <div style="flex: 1; min-width: 230px; background: #fff; border-radius: 12px; padding: 18px; border: 1px solid #e4e4e4;"> <h3>🛠 Painel Admin</h3> <ul> <li>Acesso exclusivo para administradores</li> <li>CRUD completo de imóveis</li> <li>Gerenciamento simples e eficiente</li> </ul> </div> </div>
+⚙️ Tecnologias Utilizadas
+<table> <tr> <td><b>Frontend</b></td> <td>React, Vite, React Router, Vitest, Testing Library</td> </tr> <tr> <td><b>Backend</b></td> <td>Node.js, Express, Supabase, JWT, Cucumber.js</td> </tr> <tr> <td><b>Outros</b></td> <td>LocationIQ (geocodificação)</td> </tr> </table>
+🚀 Como Executar o Projeto
+🔧 1. Clonar o repositório
 git clone https://github.com/nyox-A3-MMTE/nyox-imobiliari-ria.git
 cd nyox-imobiliari-ria/
 
-⚙️ 2. Configurar Variáveis de Ambiente
-Backend (API)
+🔧 2. Configuração das Variáveis de Ambiente
+📌 Backend
 cd src/api
 
 
@@ -71,31 +23,22 @@ SUPABASE_KEY=<sua_chave_supabase>
 STORAGE_NAME=<nome_storage_utilizado>
 LOCATIONIQ_API_KEY=<sua_chave_locationiq>
 
-
-SUPABASE_URL / SUPABASE_KEY → Credenciais do Supabase
-STORAGE_NAME → Storage utilizado para imagens dos imóveis
-LOCATIONIQ_API_KEY → Chave do LocationIQ para geocodificação
-
-Frontend
-
-Volte para o diretório raiz:
-
+📌 Frontend
 cd ../..
 
 
-Crie um arquivo .env:
+Crie um .env:
 
 VITE_API_URL=http://localhost:8800
 
-▶️ 3. Instalar Dependências e Iniciar
+▶️ 3. Iniciar Backend e Frontend
 Backend
 cd src/api
 npm install
 npm run dev
 
 
-A API estará em:
-http://localhost:8800
+📌 Rodando em: http://localhost:8800
 
 Frontend
 cd ../..
@@ -103,72 +46,33 @@ npm install
 npm run dev
 
 
-A aplicação estará em:
-http://localhost:5173
+📌 Rodando em: http://localhost:5173
 
 🧪 Testes
-Frontend — Vitest
+🟦 Frontend (Vitest)
 npm test
 
 
-Gerar cobertura:
+Cobertura:
 
 npm run test -- --coverage
 
-Backend — Cucumber.js
+🟩 Backend (Cucumber.js)
 cd src/api
 npm test
 
-
-Executa os cenários BDD definidos nos arquivos .feature.
-
-📂 Estrutura do Projeto
-nyox-imobiliari-ria/
-├── .github/                # Workflows do CI/CD
-├── public/                 # Arquivos estáticos do frontend
-├── src/
-│   ├── api/                # Backend (Node + Express)
-│   │   ├── src/
-│   │   │   ├── Connection/
-│   │   │   ├── Routes/
-│   │   │   └── ...
-│   │   ├── tests/          # Testes BDD (Cucumber)
-│   │   │   ├── features/
-│   │   │   └── steps/
-│   │   ├── .env.example
-│   │   ├── cucumber.js
-│   │   └── package.json
-│   ├── assets/             # Imagens e recursos
-│   ├── Components/         # Componentes React
-│   ├── Pages/              # Páginas React
-│   ├── main.jsx            # Entrada do frontend
-│   └── setupTests.js       # Configuração Vitest
-├── tests/                  # Testes unitários do frontend
-│   ├── Components/
-│   └── Pages/
-├── .gitignore
-├── package.json            # Dependências do frontend
-├── README.md
-└── vite.config.js
-
+📂 Estrutura de Pastas
+<div style="background:#111; color:#0f0; padding:20px; border-radius:10px; font-family:monospace; font-size:14px;"> nyox-imobiliari-ria/ ├── .github/ ├── public/ ├── src/ │ ├── api/ │ │ ├── src/ │ │ ├── tests/ │ │ ├── .env.example │ │ └── package.json │ ├── assets/ │ ├── Components/ │ ├── Pages/ │ ├── main.jsx │ └── setupTests.js ├── tests/ ├── package.json └── vite.config.js </div>
 👥 Contribuidores
-
-Carlos Eduardo da Silva — RA: 42413109
-
-Gustavo Henrique dos Santos — RA: 42424538
-
-Henrique Oliveira Ferreira — RA: 42414581
-
-João Vitor Martins Matos — RA: 42414921
-
-Heitor Zeferino Siqueira — RA: 42521884
-
-Pedro Henriques Ferreira — RA: 42411210
-
-Rodrigo Queiroz Vieira Freire — RA: 42414808
-
-Para contribuir: abra uma issue ou envie um pull request descrevendo as alterações propostas.
-
-📄 Licença
-
-Este projeto é de uso acadêmico e está disponível sob a licença MIT.
+<div align="center">
+Nome	RA
+Carlos Eduardo da Silva	42413109
+Gustavo Henrique dos Santos	42424538
+Henrique Oliveira Ferreira	42414581
+João Vitor Martins Matos	42414921
+Heitor Zeferino Siqueira	42521884
+Pedro Henriques Ferreira	42411210
+Rodrigo Queiroz Vieira Freire	42414808
+</div>
+📜 Licença
+<div style="background:#f0f7ff; border-left:5px solid #007bff; padding:14px; border-radius:8px;"> Este projeto é de uso acadêmico e distribuído sob a licença <b>MIT</b>. </div>
